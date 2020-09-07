@@ -1,0 +1,82 @@
+.simulations-content {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+
+  h1 {
+    font-size: 30px;
+    padding: 0 0 45px 30px;
+    color: $font-color-dark;
+    margin: 0;
+  }
+
+  .simulations-holder {
+
+    .simulation-card {
+      padding: 40px 30px;
+      border-radius: $border-radius-lg;
+      background: $color-bcg-light;
+      box-shadow: $shadow-main-item;
+      margin-bottom: 20px;
+
+      .top {
+        padding-bottom: 35px;
+
+        .heading {
+          span {
+            font-size: $font-size-title-px;
+            color: $font-color-main;
+          }
+        }
+      }
+
+      .main {
+        width: 100%;
+        display: flex;
+
+        .left {
+          .img-holder {
+            width: 140px;
+            height: 140px;
+            overflow: hidden;
+            border-radius: $border-radius-lg;
+
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+        }
+
+        .middle {
+          flex: 1;
+          padding: 0 30px;
+
+          .heading {
+            padding-bottom: 10px;
+            span {
+              font-size: $font-size-title-px;
+              color: $font-color-main;
+              font-weight: $font-weight-strong;
+            }
+          }
+
+          p {
+            color: $font-color-text;
+            font-size: $font-size-base-px;
+            padding: 0;
+          }
+        }
+
+        .right {
+          width: 120px;
+
+          button {
+            margin-bottom: 7px;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

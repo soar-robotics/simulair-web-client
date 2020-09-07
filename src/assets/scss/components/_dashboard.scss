@@ -1,0 +1,44 @@
+//breakpoint-up !!
+
+.dashboard-container {
+  min-height: 100vh;
+  background: $color-bcg-grey;
+  position: relative;
+
+  .dashboard-content {
+    margin-left: 375px;
+    .content-container {
+      padding-left: 60px;
+      padding-right: 60px;
+      padding-bottom: 80px;
+    }
+  }
+}
+
+.action-bar {
+  padding: 50px 0;
+  .items-left {
+    float: left;
+    button {
+      margin-right: 15px;
+    }
+  }
+  .items-right {
+    float: right;
+    display: flex;
+  }
+  .search-holder {
+    display: flex;
+    width: 450px;
+    input {
+      flex: 1;
+      margin-right: 8px;
+    }
+  }
+  .user-holder {
+    margin-left: 10px;
+    .btn-dropdown-menu {
+      box-shadow: $shadow-main-item;
+    }
+  }
+}

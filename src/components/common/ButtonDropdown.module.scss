@@ -1,0 +1,134 @@
+@import "../../assets/scss/variables";
+
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.btn-dropdown {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1001;
+  background: $color-primary;
+
+  .dropdown-icon {
+    position: absolute;
+    font-size: 150%;
+  }
+}
+
+.btn-sm {
+  padding: 15px;
+  padding-right: 40px;
+
+  .dropdown-icon {
+    right: 15px;
+  }
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  width: 100%;
+  background: $color-bcg-light;
+  border-radius: $border-radius-sm;
+  padding: 60px 12px 15px 12px;
+  top: 0;
+  box-shadow: $shadow-main-dropdown;
+  z-index: 1000;
+
+  p {
+    font-size: $font-size-btn-sm-px;
+    color: $font-color-text;
+    text-align: right;
+    padding: 12px 12px 0 12px;
+  }
+
+  .dropdown-item {
+    width: 100%;
+    cursor: pointer;
+
+    .dropdown-item-inner {
+      width: 100%;
+      padding: 12px;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-btn-sm-px;
+      color: $font-color-text;
+    }
+
+    &:hover {
+      .dropdown-item-inner {
+        transition: all 0.15s;
+        background: $color-bcg-grey-hover;
+      }
+    }
+
+    &.active {
+      .dropdown-item-inner {
+        background: $color-action2;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// currently works only for user menu button (not customizable from component)
+.dropdown-open {
+  display: block;
+}
+
+.btn-dropdown-icon {
+  & > button {
+    position: relative;
+  }
+
+  &.btn-dropdown-opened {
+    &::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: $color-bcg-light;
+      width: 60px;
+      height: 100px;
+      border-radius: $border-radius-sm;
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 200px;
+    right: 0;
+    top: auto;
+    margin-top: 20px;
+    padding-top: 15px;
+
+    .dropdown-item {
+      text-align: right;
+
+      .dropdown-item-inner {
+        text-align: right;
+        width: auto;
+        display: inline-block;
+      }
+
+      &:hover {
+        .dropdown-item-inner {
+          background: $color-action2;
+          color: #fff;
+        }
+      }
+
+      &.active:not(:hover) {
+        .dropdown-item-inner {
+          background: unset;
+          color: $font-color-text;
+        }
+      }
+    }
+  }
+}

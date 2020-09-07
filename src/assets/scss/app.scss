@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import 'bootstrap-custom';
+@import 'variables';
+@import 'components/dashboard';
+@import 'components/sidebar';
+@import 'components/simulations';
+@import 'components/environments';
+@import 'components/modals';
+
+body {
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-base-px;
+  font-weight: $font-weight-normal;
+  color: $font-color-text;
+  line-height: 1.4;
+}
+
+.main-wrapper {
+  padding: 0;
+  min-width: 1750px; // temporary until UI responsiveness is polished
+}
+
+.text-color-primary {
+  color: $color-primary;
+}
+
+.text-color-secondary {
+  color: $color-action1;
+}
+
+.text-color-tertiary {
+  color: $color-action2;
+}
+
+.text-color-primary {
+  color: $color-primary;
+}
+
+._center-block {
+  margin: 0 auto;
+  display: block;
+}
