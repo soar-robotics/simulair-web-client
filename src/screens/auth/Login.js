@@ -8,17 +8,53 @@ import logoImg from 'assets/img/logo.png';
 import googleImg from 'assets/img/google.png';
 import {Link} from "react-router-dom";
 import InputText from "../../components/common/InputText";
+import AuthService from 'services/AuthService';
+import TextLoadingIcon from "../../components/common/TextLoadingIcon";
 
 class Login extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            opened: false
+            loginInProgress: false,
+            email: '',
+            password: '',
+            message: ''
         };
     }
 
     componentDidMount() {
+        console.log("req sent");
+        //this.login();
+        //this.logout();
+    }
+
+    login() {
+        AuthService.login('test@lubarto.com', 'password').then((response) => {
+            console.log(response);
+        }).catch(error => {
+            console.log('err')
+        });
+    }
+
+    logout() {
+        AuthService.logout().then((response) => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    handleLogin = (e) => {
+        this.setState({loginInProgress: true});
+
+        AuthService.login('lukabartolic11@gmail.com', 'password').then((response) => {
+            console.log(response);
+            this.setState({loginInProgress: false});
+            this.props.history.push("/app");
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     componentDidUpdate() {
@@ -50,9 +86,15 @@ class Login extends Component {
                             <Form.Check custom type="checkbox" label="Remember me"/>
                         </Form.Group>
                         <Divider spacing={50}/>
-                        <Link to='/app'>
-                            <Button type="primary" size="lg" outline className={`_center-block`}>Login</Button>
-                        </Link>
+                        <Button type="primary" size="lg" outline className={`_center-block`}
+                                onClick={this.handleLogin}
+                                disabled={this.state.loginInProgress}
+                        >
+                            {this.state.loginInProgress && (
+                                <TextLoadingIcon/>
+                            )}
+                            Login
+                        </Button>
                         <Divider spacing={45}/>
                         <div className={styles.providersHolder}>
                             <p>or login with</p>

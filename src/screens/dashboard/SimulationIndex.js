@@ -1,6 +1,8 @@
 import {simulations as simulationsData} from "../../config/sample-data";
 
 import React, {Component, Fragment} from 'react';
+import CSSTransition from 'react-transition-group';
+import _ from 'lodash';
 import Button from "../../components/common/Button";
 import ButtonIcon from "../../components/common/ButtonIcon";
 import InputText from "../../components/common/InputText";
@@ -11,33 +13,82 @@ import {Link, Route, Switch, Redirect, generatePath} from "react-router-dom";
 import queryString from 'query-string';
 import * as constants from 'config/constants/simulations';
 import SimulationCreate from "./SimulationCreate";
+import {BeatLoader} from "react-spinners";
+import SimulationService from "../../services/SimulationService";
+import LoadingBox from "../../components/common/LoadingBox";
+import {toast} from "react-toastify";
+import Fade from 'react-reveal/Fade';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import SimulationList from "../../components/dashboard/SimulationList";
 
 class SimulationIndex extends Component {
     constructor(props) {
         super(props);
 
-        const {status, search} = queryString.parse(this.props.location.search);
+        const {status, search} = this.getFiltersFromQueryString();
+
+        this.initialSearch = search;
 
         this.state = {
-            simulations: simulationsData,
+            isFetching: false,
+            simulations: [],
+            openedSimulation: null,
             filters: {
                 [constants.FILTER_TYPES.STATUS]: status || constants.TYPES.RUNNING,
                 [constants.FILTER_TYPES.SEARCH]: search || ''
             }
         }
-
-        this.initialSearch = search;
-
-        console.log(this.props);
     }
 
     componentDidMount() {
-        const simulations = this.getSimulations();
-        this.setState({simulations: simulations});
+        this.getSimulations(this.state.filters[constants.FILTER_TYPES.STATUS], this.state.filters[constants.FILTER_TYPES.SEARCH]);
     }
 
-    getSimulations() {
-        return simulationsData;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {status, search} = this.getFiltersFromQueryString();
+        const {location} = this.props;
+
+        // set state values based on change in query string due to navigation
+        if ((location.search !== prevProps.location.search) &&
+            (location.pathname === prevProps.location.pathname)) {
+            this.setState({
+                filters: {
+                    [constants.FILTER_TYPES.STATUS]: status || constants.TYPES.RUNNING,
+                    [constants.FILTER_TYPES.SEARCH]: search || ''
+                }
+            })
+        }
+
+        if (!_.isEqual(prevState.filters, this.state.filters)) {
+            this.getSimulations(this.state.filters[constants.FILTER_TYPES.STATUS], this.state.filters[constants.FILTER_TYPES.SEARCH]);
+        }
+    }
+
+    getSimulations(status, search) {
+        this.setState({
+            isFetching: true
+        });
+        SimulationService.getSimulations(status, search)
+            .then((response) => {
+                this.setState({
+                    simulations: response.data
+                });
+                this.toggleSimulationOpen(response.data[0].id);
+            })
+            .finally(() => {
+                this.setState({
+                    isFetching: false
+                });
+            });
+    }
+
+    getModalCreate = () => {
+        this.props.history.push(`${this.props.match.url}/create`);
+    }
+
+    getFiltersFromQueryString() {
+        const filters = queryString.parse(this.props.location.search);
+        return {status: filters.status, search: filters.search};
     }
 
     setFilter(filterType, value) {
@@ -57,22 +108,60 @@ class SimulationIndex extends Component {
         this.setFilter(constants.FILTER_TYPES.SEARCH, value);
     }
 
-    getModalCreate =() => {
-        console.log(this.props);
-        this.props.history.push(`${this.props.match.url}/create`);
+    updateSimulationStatus = (id, status) => {
+        const simulations = {...this.state.simulations};
+        const simulation = _.find(simulations, sim => {
+            return sim.id === id;
+        });
+
+        if (status !== this.state.filters[constants.FILTER_TYPES.STATUS]) {
+            this.setState({simulations: _.filter(simulations, simulation => simulation.id !== id)});
+
+            toast.info(`Status set to "${status}" for simulation ${simulation.name}.`);
+        }
+    }
+
+    toggleSimulationOpen = (id) => {
+        this.setState({openedSimulation: (id === this.state.openedSimulation) ? null : id});
+    }
+
+    handleStatusUpdate = (id, status) => {
+        this.updateSimulationStatus(id, status);
+    }
+
+    handleToggleOpen = (id) => {
+        this.toggleSimulationOpen(id);
     }
 
     renderSimulations() {
-        return this.state.simulations.map((simulation) => {
+        /*return (
+            <TransitionGroup {...{
+                appear: false,
+                enter: true,
+                exit: true
+            }}>
+                {this.state.simulations.map((simulation) => {
+                    const {id, name, status, thumbnail, description} = simulation;
+
+                    return (
+                        <Fade key={id} when={false} duration={600} collapse bottom>
+                            <SimulationCard onStatusUpdate={this.updateSimulationStatus} {
+                                ...{key: id, id, name, status, thumbnail, description}
+                            }/>
+                        </Fade>
+                    );
+                })}
+            </TransitionGroup>
+        )*/
+        return this.state.simulations.map((simulation, i) => {
             const {id, name, status, thumbnail, description} = simulation;
 
-            if (this.state.filters.status) {
-                return (status === this.state.filters.status) ?
-                    <SimulationCard {...{key: id, id, name, status, thumbnail, description}}/> : null;
-            }
-
             return (
-                <SimulationCard {...{key: id, id, name, status, thumbnail, description}}/>
+                <SimulationCard onStatusUpdate={this.handleStatusUpdate}
+                                onToggleOpen={this.handleToggleOpen}
+                                opened={this.state.openedSimulation === simulation.id}
+                                {...{key: id, id, name, status, thumbnail, description}}
+                />
             );
         });
     }
@@ -100,6 +189,7 @@ class SimulationIndex extends Component {
     }
 
     render() {
+        console.log('INDEX RENDER');
         return (
             <Fragment>
                 <ActionBar initialSearch={this.initialSearch} onSearchSubmit={this.applySearch}>
@@ -116,7 +206,12 @@ class SimulationIndex extends Component {
                     <h1>Stopped Instances</h1>
                     }
                     <div className='simulations-holder'>
-                        {this.renderSimulations()}
+                        {(this.state.isFetching) &&
+                        <LoadingBox/>
+                        }
+                        {(!this.state.isFetching) &&
+                        <SimulationList simulations={this.state.simulations} filters={this.state.filters}/>
+                        }
                     </div>
                 </div>
                 <Switch>

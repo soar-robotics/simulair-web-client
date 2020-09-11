@@ -4,6 +4,7 @@ import InputText from "./common/InputText";
 import ButtonDropdown from "./common/ButtonDropdown";
 import {withRouter} from 'react-router-dom';
 import UserProfileEdit from "../screens/dashboard/UserProfileEdit";
+import AuthService from "../services/AuthService";
 
 class ActionBar extends Component {
     constructor(props) {
@@ -39,6 +40,16 @@ class ActionBar extends Component {
         }
     };
 
+    handleLogout() {
+        AuthService.logout()
+            .then(() => {
+                this.props.history.push("/app");
+            })
+            .catch(() => {
+
+            });
+    }
+
     handleMenuItemSelect = (item) => {
         const {history} = this.props;
         console.log(this.props);
@@ -56,6 +67,8 @@ class ActionBar extends Component {
             case 4:
                 history.push('/app/robots');
                 break;
+            case 5:
+                this.handleLogout();
         }
     }
 
@@ -78,25 +91,25 @@ class ActionBar extends Component {
     render() {
         return (
             <Fragment>
-            <div className='action-bar clearfix'>
-                <div className='items-left'>
-                    {this.props.children}
-                </div>
-                <div className='items-right'>
-                    <div className='search-holder'>
-                        {this.renderSearch()}
+                <div className='action-bar clearfix'>
+                    <div className='items-left'>
+                        {this.props.children}
                     </div>
-                    <div className='user-holder'>
-                        <ButtonDropdown iconButton plain type='primary' size='lg'
-                                        leadText='Signed in as Username'
-                                        items={this.userMenuItems}
-                                        onItemSelect={this.handleMenuItemSelect}
-                        >
-                            <i className="fas fa-cog fa-2x"/>
-                        </ButtonDropdown>
+                    <div className='items-right'>
+                        <div className='search-holder'>
+                            {this.renderSearch()}
+                        </div>
+                        <div className='user-holder'>
+                            <ButtonDropdown iconButton plain type='primary' size='lg'
+                                            leadText='Signed in as Username'
+                                            items={this.userMenuItems}
+                                            onItemSelect={this.handleMenuItemSelect}
+                            >
+                                <i className="fas fa-cog fa-2x"/>
+                            </ButtonDropdown>
+                        </div>
                     </div>
                 </div>
-            </div>
                 {(this.state.userProfileShow) ? this.showUserProfile() : null}
             </Fragment>
         );

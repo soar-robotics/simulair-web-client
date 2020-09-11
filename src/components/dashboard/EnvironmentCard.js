@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import simulationImg from 'assets/img/simulation_placeholder.png';
 
 class EnvironmentCard extends Component {
     render() {
@@ -7,7 +8,7 @@ class EnvironmentCard extends Component {
         return (
             <div className='environment-card'>
                 <div className='top'>
-                    <img src={thumbnail}/>
+                    <img src={simulationImg}/>
                 </div>
                 <div className='main'>
                     <div className='heading'>

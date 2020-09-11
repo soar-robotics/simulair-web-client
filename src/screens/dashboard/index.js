@@ -4,6 +4,7 @@ import SimulationIndex from "./SimulationIndex";
 import EnvironmentIndex from "./EnvironmentIndex";
 import RobotIndex from "./RobotIndex";
 import Sidebar from "../../components/dashboard/Sidebar";
+import AuthService from "../../services/AuthService";
 
 class Dashboard extends Component {
     constructor(props) {

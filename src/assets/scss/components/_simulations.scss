@@ -11,69 +11,87 @@
   }
 
   .simulations-holder {
+    position: relative;
 
-    .simulation-card {
-      padding: 40px 30px;
-      border-radius: $border-radius-lg;
-      background: $color-bcg-light;
-      box-shadow: $shadow-main-item;
-      margin-bottom: 20px;
+    .simulation-card-holder {
+      padding-bottom: 20px;
 
-      .top {
-        padding-bottom: 35px;
+      .simulation-card {
+        padding: 25px 30px;
+        border-radius: $border-radius-lg;
+        background: $color-bcg-light;
+        box-shadow: $shadow-main-item;
+        position: relative;
+        overflow: hidden;
 
-        .heading {
-          span {
-            font-size: $font-size-title-px;
-            color: $font-color-main;
-          }
-        }
-      }
-
-      .main {
-        width: 100%;
-        display: flex;
-
-        .left {
-          .img-holder {
-            width: 140px;
-            height: 140px;
-            overflow: hidden;
-            border-radius: $border-radius-lg;
-
-            img {
-              width: 100%;
-              height: auto;
-            }
-          }
-        }
-
-        .middle {
-          flex: 1;
-          padding: 0 30px;
+        .top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
 
           .heading {
-            padding-bottom: 10px;
             span {
               font-size: $font-size-title-px;
               color: $font-color-main;
-              font-weight: $font-weight-strong;
             }
-          }
-
-          p {
-            color: $font-color-text;
-            font-size: $font-size-base-px;
-            padding: 0;
           }
         }
 
-        .right {
-          width: 120px;
+        .main {
+          width: 100%;
+          display: flex;
+          padding-top: 35px;
 
-          button {
-            margin-bottom: 7px;
-            display: block;
+          &.hidden {
+            display: none;
+          }
+
+          &.shown {
+
+          }
+
+          .left {
+            .img-holder {
+              width: 140px;
+              height: 140px;
+              overflow: hidden;
+              border-radius: $border-radius-lg;
+
+              img {
+                width: 100%;
+                height: auto;
+              }
+            }
+          }
+
+          .middle {
+            flex: 1;
+            padding: 0 30px;
+
+            .heading {
+              padding-bottom: 10px;
+
+              span {
+                font-size: $font-size-title-px;
+                color: $font-color-main;
+                font-weight: $font-weight-strong;
+              }
+            }
+
+            p {
+              color: $font-color-text;
+              font-size: $font-size-base-px;
+              padding: 0;
+            }
+          }
+
+          .right {
+            width: 120px;
+
+            button {
+              margin-bottom: 7px;
+              display: block;
+            }
           }
         }
       }

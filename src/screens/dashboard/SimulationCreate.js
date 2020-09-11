@@ -19,6 +19,8 @@ class SimulationCreate extends Component {
             {id: 2, text: 'Item 2'},
             {id: 3, text: 'Item 3'},
         ];
+
+        console.log(this.props);
     }
 
     onHide = () => {

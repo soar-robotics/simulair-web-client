@@ -1,0 +1,21 @@
+/* ReactToastify initialisation and global overrides */
+
+@import '~react-toastify/dist/ReactToastify';
+
+.Toastify__toast-container {
+  width: 380px;
+}
+
+.Toastify__toast--info {
+  background: #ffffff;
+  color: $font-color-main;
+  border-radius: 15px;
+  padding: 20px;
+  font-family: inherit;
+  .Toastify__close-button--info {
+    color: #111;
+  }
+  .Toastify__progress-bar--info {
+    background: $color-primary;
+  }
+}

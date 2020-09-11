@@ -6,16 +6,19 @@
   font-weight: $font-weight-strong;
   padding: 21px 80px;
   border-radius: $border-radius-lg;
+
   .icon {
     display: inline-block;
     margin-right: 15px;
     padding: 11px 13px;
     border-radius: $border-radius-sm;
     background: rgba(#fff, 0.25);
+
     i {
       font-size: 16px;
     }
   }
+
   &.has-icon {
     padding: 10px 13px;
     min-width: 200px;
@@ -27,13 +30,16 @@
   font-size: $font-size-btn-sm-px;
   border-radius: $border-radius-sm;
   padding: 15px 50px;
+
   .icon {
     padding: 0;
     background: none;
+
     i {
       font-size: 16px;
     }
   }
+
   &.has-icon {
     padding: 15px 20px;
     min-width: 120px;
@@ -48,14 +54,16 @@
 }
 
 :global(.btn-primary) {
-  background: $color-primary;
-  border: none;
+  &, &:disabled {
+    background: $color-primary;
+    border: none;
+  }
 
   &:not(:disabled):not(.disabled):active {
     background-color: darken($color-primary, 7);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: darken($color-primary, 5);
   }
 
@@ -70,9 +78,11 @@
 }
 
 :global(.btn-outline-primary) {
-  color: $color-primary;
-  border-color: $color-primary;
-  border-width: $btn-border-width;
+  &, &:disabled {
+    color: $color-primary;
+    border-color: $color-primary;
+    border-width: $btn-border-width;
+  }
 
   &:not(:disabled):not(.disabled):active {
     color: #fff;
@@ -80,7 +90,7 @@
     border-color: $color-primary;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: #fff;
     background-color: $color-primary;
     border-color: $color-primary;
@@ -93,6 +103,7 @@
   &.btn-lg {
     .icon {
       background: $color-primary;
+
       i {
         color: #fff;
       }
@@ -101,13 +112,15 @@
 }
 
 .btn-secondary {
-  background: $color-action1;
+  &, &:disabled {
+    background: $color-action1;
+  }
 
   &:not(:disabled):not(.disabled):active {
     background-color: darken($color-action1, 7);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: darken($color-action1, 5);
   }
 
@@ -122,9 +135,11 @@
 }
 
 .btn-outline-secondary {
-  color: $color-action1;
-  border-color: $color-action1;
-  border-width: $btn-border-width;
+  &, &:disabled {
+    color: $color-action1;
+    border-color: $color-action1;
+    border-width: $btn-border-width;
+  }
 
   &:not(:disabled):not(.disabled):active {
     color: #fff;
@@ -132,7 +147,7 @@
     border-color: $color-action1;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: #fff;
     background-color: $color-action1;
     border-color: $color-action1;
@@ -145,6 +160,7 @@
   &.btn-lg {
     .icon {
       background: $color-action1;
+
       i {
         color: #fff;
       }
@@ -153,13 +169,15 @@
 }
 
 .btn-tertiary {
-  background: $color-action2;
+  &, &:disabled {
+    background: $color-action2;
+  }
 
   &:not(:disabled):not(.disabled):active {
     background-color: darken($color-action2, 7);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: darken($color-action2, 5);
   }
 
@@ -174,9 +192,11 @@
 }
 
 .btn-outline-tertiary {
-  color: $color-action2;
-  border-color: $color-action2;
-  border-width: $btn-border-width;
+  &, &:disabled {
+    color: $color-action2;
+    border-color: $color-action2;
+    border-width: $btn-border-width;
+  }
 
   &:not(:disabled):not(.disabled):active {
     color: #fff;
@@ -184,7 +204,7 @@
     border-color: $color-action2;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: #fff;
     background-color: $color-action2;
     border-color: $color-action2;
@@ -197,6 +217,7 @@
   &.btn-lg {
     .icon {
       background: $color-action2;
+
       i {
         color: #fff;
       }
@@ -205,14 +226,16 @@
 }
 
 .btn-light {
-  background: rgba(#fff, 0.25);
+  &, &:disabled {
+    background: rgba(#fff, 0.25);
+  }
 
   &:not(:disabled):not(.disabled):active {
     background-color: darken(#fff, 7);
     color: $color-primary;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: darken(#fff, 5);
     color: $color-primary;
   }
@@ -230,9 +253,11 @@
 }
 
 .btn-outline-light {
-  color: #fff;
-  border-color: #fff;
-  border-width: $btn-border-width;
+  &, &:disabled {
+    color: #fff;
+    border-color: #fff;
+    border-width: $btn-border-width;
+  }
 
   &:not(:disabled):not(.disabled):active {
     color: #fff;
@@ -240,7 +265,7 @@
     border-color: #fff;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: #fff;
     background-color: #fff;
     border-color: #fff;
@@ -253,6 +278,7 @@
   &.btn-lg {
     .icon {
       background: rgba(#fff, 0.25);
+
       i {
         color: #fff;
       }
