@@ -1,48 +1,20 @@
 import React, {Component} from 'react';
 import SimulationCard from "./SimulationCard";
 import _ from "lodash";
+import FlipMove from "react-flip-move";
 import * as constants from "../../config/constants/simulations";
-import {toast} from "react-toastify";
 
 class SimulationList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            simulations: this.props.simulations || [],
-            openedSimulation: null
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.simulations !== this.props.simulations) {
-            this.setState({simulations: this.props.simulations});
-        }
-    }
-
-    updateSimulationStatus = (id, status) => {
-        const simulations = {...this.state.simulations};
+    handleStatusUpdate = (id, status) => {
+        const simulations = {...this.props.simulations};
         const simulation = _.find(simulations, sim => {
             return sim.id === id;
         });
 
         if (status !== this.props.filters[constants.FILTER_TYPES.STATUS]) {
-            this.setState({simulations: _.filter(simulations, simulation => simulation.id !== id)});
-
-            toast.info(`Status set to "${status}" for simulation ${simulation.name}.`);
+            const filteredSimulations = _.filter(simulations, simulation => simulation.id !== id);
+            this.props.onStatusUpdate(filteredSimulations, simulation, status);
         }
-    }
-
-    toggleSimulationOpen = (id) => {
-        this.setState({openedSimulation: (id === this.state.openedSimulation) ? null : id});
-    }
-
-    handleStatusUpdate = (id, status) => {
-        this.updateSimulationStatus(id, status);
-    }
-
-    handleToggleOpen = (id) => {
-        this.toggleSimulationOpen(id);
     }
 
     renderList() {
@@ -68,17 +40,21 @@ class SimulationList extends Component {
     }
 
     render() {
-        return this.state.simulations.map((simulation, i) => {
-            const {id, name, status, thumbnail, description} = simulation;
+        return (
+            <FlipMove leaveAnimation="elevator">
+                {this.props.simulations.map((simulation) => {
+                    const {id, name, status, thumbnail, description} = simulation;
 
-            return (
-                <SimulationCard onStatusUpdate={this.handleStatusUpdate}
-                                onToggleOpen={this.handleToggleOpen}
-                                opened={this.state.openedSimulation === simulation.id}
-                                {...{key: id, id, name, status, thumbnail, description}}
-                />
-            );
-        });
+                    return (
+                        <SimulationCard onStatusUpdate={this.handleStatusUpdate}
+                                        onToggleOpen={(id) => this.props.onToggleOpen(id)}
+                                        opened={this.props.openedSimulation === simulation.id}
+                                        {...{key: id, id, name, status, thumbnail, description}}
+                        />
+                    );
+                })}
+            </FlipMove>
+        )
     }
 }
 

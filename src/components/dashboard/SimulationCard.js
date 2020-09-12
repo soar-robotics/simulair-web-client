@@ -1,11 +1,9 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
+import {Collapse} from "react-bootstrap";
 import simulationImg from 'assets/img/simulation_placeholder.png';
 import Button from "../common/Button";
-import {BeatLoader} from "react-spinners";
-import TextLoadingIcon from "../common/TextLoadingIcon";
 import LoadingBox from "../common/LoadingBox";
 import SimulationService from "../../services/SimulationService";
-import {Fade} from "react-reveal";
 import ButtonIcon from "../common/ButtonIcon";
 
 class SimulationCard extends Component {
@@ -14,14 +12,6 @@ class SimulationCard extends Component {
         this.state = {
             isUpdating: false
         }
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
     }
 
     changeStatus(id, status) {
@@ -45,7 +35,6 @@ class SimulationCard extends Component {
 
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
-        const {isOpened} = this.state;
         console.log('CARD RENDER');
 
         return (
@@ -64,32 +53,36 @@ class SimulationCard extends Component {
                             </ButtonIcon>
                         </div>
                     </div>
-                    <div className={`main ${(!opened) ? 'hidden' : 'shown'}`}>
-                        <div className='left'>
-                            <div className='img-holder'>
-                                <img src={simulationImg}/>
+                    <Collapse in={opened}>
+                        <div>
+                            <div className={`main`}>
+                                <div className='left'>
+                                    <div className='img-holder'>
+                                        <img src={simulationImg} alt=''/>
+                                    </div>
+                                </div>
+                                <div className='middle'>
+                                    <div className='heading'>
+                                        <span>{name}</span>
+                                    </div>
+                                    <p>
+                                        {description}
+                                    </p>
+                                </div>
+                                <div className='right'>
+                                    <Button type="primary" size="sm" icon
+                                            onClick={() => this.changeStatus(id, 'running')}>
+                                        Run
+                                    </Button>
+                                    <Button type="primary" size="sm" outline icon
+                                            onClick={() => this.changeStatus(id, 'stopped')}>
+                                        Stop
+                                    </Button>
+                                    <Button type="primary" size="sm" outline icon>View</Button>
+                                </div>
                             </div>
                         </div>
-                        <div className='middle'>
-                            <div className='heading'>
-                                <span>{name}</span>
-                            </div>
-                            <p>
-                                {description}
-                            </p>
-                        </div>
-                        <div className='right'>
-                            <Button type="primary" size="sm" icon
-                                    onClick={() => this.changeStatus(id, 'running')}>
-                                Run
-                            </Button>
-                            <Button type="primary" size="sm" outline icon
-                                    onClick={() => this.changeStatus(id, 'stopped')}>
-                                Stop
-                            </Button>
-                            <Button type="primary" size="sm" outline icon>View</Button>
-                        </div>
-                    </div>
+                    </Collapse>
                 </div>
             </div>
         );

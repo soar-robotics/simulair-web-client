@@ -8,7 +8,7 @@ class EnvironmentCard extends Component {
         return (
             <div className='environment-card'>
                 <div className='top'>
-                    <img src={simulationImg}/>
+                    <img src={simulationImg} alt=''/>
                 </div>
                 <div className='main'>
                     <div className='heading'>

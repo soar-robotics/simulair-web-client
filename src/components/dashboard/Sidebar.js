@@ -55,12 +55,12 @@ class Sidebar extends Component {
             <div className='sidebar'>
                 <div className='sidebar-inner sticky-top'>
                     <div className='logo'>
-                        <img src={logoImg}/>
+                        <img src={logoImg} alt=''/>
                     </div>
                     <Divider spacing={65}/>
                     <div className='profile'>
                         <div className='image-holder'>
-                            <img src={profileImg}/>
+                            <img src={profileImg} alt=''/>
                         </div>
                         <span>Luka Bartolic</span>
                     </div>

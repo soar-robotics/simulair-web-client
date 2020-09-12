@@ -4,8 +4,7 @@ import imgPlaceholder from "../../assets/img/simulation_placeholder.png";
 import Divider from "../../components/common/Divider";
 import InputText from "../../components/common/InputText";
 import Button from "../../components/common/Button";
-import ButtonDropdown from "../../components/common/ButtonDropdown";
-import {Container, Row, Col} from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 
 class UserProfileEdit extends Component {
     constructor(props) {
@@ -55,7 +54,7 @@ class UserProfileEdit extends Component {
                 <div className='profile-image'>
                     <div className='image-holder'>
                         <div className='image-inner'>
-                            <img src={imgPlaceholder}/>
+                            <img src={imgPlaceholder} alt=''/>
                         </div>
                     </div>
                     <div className='form'>

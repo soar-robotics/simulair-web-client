@@ -1,25 +1,16 @@
-import {simulations as simulationsData} from "../../config/sample-data";
-
 import React, {Component, Fragment} from 'react';
-import CSSTransition from 'react-transition-group';
+import {Route, Switch} from "react-router-dom";
+import {toast} from "react-toastify";
+import queryString from 'query-string';
 import _ from 'lodash';
-import Button from "../../components/common/Button";
-import ButtonIcon from "../../components/common/ButtonIcon";
-import InputText from "../../components/common/InputText";
-import SimulationCard from "../../components/dashboard/SimulationCard";
 import Divider from "../../components/common/Divider";
 import ActionBar from "../../components/ActionBar";
-import {Link, Route, Switch, Redirect, generatePath} from "react-router-dom";
-import queryString from 'query-string';
 import * as constants from 'config/constants/simulations';
 import SimulationCreate from "./SimulationCreate";
-import {BeatLoader} from "react-spinners";
 import SimulationService from "../../services/SimulationService";
 import LoadingBox from "../../components/common/LoadingBox";
-import {toast} from "react-toastify";
-import Fade from 'react-reveal/Fade';
-import TransitionGroup from 'react-transition-group/TransitionGroup';
 import SimulationList from "../../components/dashboard/SimulationList";
+import Button from "../../components/common/Button";
 
 class SimulationIndex extends Component {
     constructor(props) {
@@ -73,7 +64,9 @@ class SimulationIndex extends Component {
                 this.setState({
                     simulations: response.data
                 });
-                this.toggleSimulationOpen(response.data[0].id);
+                if (!_.isEmpty(response.data)) {
+                    this.toggleSimulationOpen(response.data[0].id);
+                }
             })
             .finally(() => {
                 this.setState({
@@ -108,62 +101,17 @@ class SimulationIndex extends Component {
         this.setFilter(constants.FILTER_TYPES.SEARCH, value);
     }
 
-    updateSimulationStatus = (id, status) => {
-        const simulations = {...this.state.simulations};
-        const simulation = _.find(simulations, sim => {
-            return sim.id === id;
-        });
-
-        if (status !== this.state.filters[constants.FILTER_TYPES.STATUS]) {
-            this.setState({simulations: _.filter(simulations, simulation => simulation.id !== id)});
-
-            toast.info(`Status set to "${status}" for simulation ${simulation.name}.`);
-        }
-    }
-
     toggleSimulationOpen = (id) => {
         this.setState({openedSimulation: (id === this.state.openedSimulation) ? null : id});
     }
 
-    handleStatusUpdate = (id, status) => {
-        this.updateSimulationStatus(id, status);
+    handleStatusUpdate = (filteredSimulations, updatedSimulation, status) => {
+        this.setState({simulations: filteredSimulations});
+        toast.info(`Status set to "${status}" for simulation ${updatedSimulation.name}.`);
     }
 
     handleToggleOpen = (id) => {
         this.toggleSimulationOpen(id);
-    }
-
-    renderSimulations() {
-        /*return (
-            <TransitionGroup {...{
-                appear: false,
-                enter: true,
-                exit: true
-            }}>
-                {this.state.simulations.map((simulation) => {
-                    const {id, name, status, thumbnail, description} = simulation;
-
-                    return (
-                        <Fade key={id} when={false} duration={600} collapse bottom>
-                            <SimulationCard onStatusUpdate={this.updateSimulationStatus} {
-                                ...{key: id, id, name, status, thumbnail, description}
-                            }/>
-                        </Fade>
-                    );
-                })}
-            </TransitionGroup>
-        )*/
-        return this.state.simulations.map((simulation, i) => {
-            const {id, name, status, thumbnail, description} = simulation;
-
-            return (
-                <SimulationCard onStatusUpdate={this.handleStatusUpdate}
-                                onToggleOpen={this.handleToggleOpen}
-                                opened={this.state.openedSimulation === simulation.id}
-                                {...{key: id, id, name, status, thumbnail, description}}
-                />
-            );
-        });
     }
 
     renderActionButtons() {
@@ -210,7 +158,13 @@ class SimulationIndex extends Component {
                         <LoadingBox/>
                         }
                         {(!this.state.isFetching) &&
-                        <SimulationList simulations={this.state.simulations} filters={this.state.filters}/>
+                        <SimulationList
+                            simulations={this.state.simulations}
+                            openedSimulation={this.state.openedSimulation}
+                            filters={this.state.filters}
+                            onStatusUpdate={this.handleStatusUpdate}
+                            onToggleOpen={this.handleToggleOpen}
+                        />
                         }
                     </div>
                 </div>
