@@ -10,6 +10,7 @@ import SimulationService from "../../services/SimulationService";
 import EnvironmentService from "../../services/EnvironmentService";
 import _ from "lodash";
 import RobotService from "../../services/RobotService";
+import LoadingBox from "../../components/common/LoadingBox";
 
 class RobotIndex extends Component {
     constructor(props) {
@@ -127,7 +128,12 @@ class RobotIndex extends Component {
 
                 <div className={`default-product-content ${(this.state.display === 'grid') ? 'grid' : 'list-display'}`}>
                     <div className='default-product-holder'>
-                        {this.renderRobots()}
+                        {(this.state.isFetching) &&
+                        <LoadingBox/>
+                        }
+                        {(!this.state.isFetching) &&
+                        this.renderRobots()
+                        }
                     </div>
                 </div>
             </Fragment>

@@ -9,6 +9,7 @@ import ActionBar from "../../components/ActionBar";
 import SimulationService from "../../services/SimulationService";
 import EnvironmentService from "../../services/EnvironmentService";
 import _ from "lodash";
+import LoadingBox from "../../components/common/LoadingBox";
 
 class EnvironmentIndex extends Component {
     constructor(props) {
@@ -126,7 +127,12 @@ class EnvironmentIndex extends Component {
 
                 <div className={`default-product-content ${(this.state.display === 'grid') ? 'grid' : 'list-display'}`}>
                     <div className='default-product-holder'>
-                        {this.renderEnvironments()}
+                        {(this.state.isFetching) &&
+                        <LoadingBox/>
+                        }
+                        {(!this.state.isFetching) &&
+                        this.renderEnvironments()
+                        }
                     </div>
                 </div>
             </Fragment>
