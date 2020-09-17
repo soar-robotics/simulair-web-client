@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import ReactDOM from "react-dom";
-import {Modal} from "react-bootstrap";
+import {Container, Modal} from "react-bootstrap";
+import LoadingBox from "./common/LoadingBox";
 
 class ModalDefault extends Component {
     constructor(props) {
@@ -29,12 +30,10 @@ class ModalDefault extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='modal-body-inner'>
-                        <div className='selection-grid'>
-                            {renderContent()}
-                        </div>
+                        {renderContent()}
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className={(!renderFooter()) ? 'no-footer' : ''}>
                     {renderFooter()}
                 </Modal.Footer>
             </Fragment>
@@ -67,7 +66,7 @@ class ModalDefault extends Component {
     }
 
     render() {
-        const {modalClassName, renderSide, ...restProps} = this.props;
+        const {modalClassName, renderSide, renderContent, renderFooter, isLoading, ...restProps} = this.props;
 
         return ReactDOM.createPortal(
             <Modal
@@ -76,6 +75,10 @@ class ModalDefault extends Component {
                 className={`modal-dialog-default ${modalClassName} ${(renderSide) ? 'has-side' : ''}`}
                 backdropClassName='modal-backdrop-default'
             >
+
+                {(isLoading) &&
+                <LoadingBox hasBackdrop/>
+                }
                 {this.renderModalContent()}
             </Modal>,
             this.el

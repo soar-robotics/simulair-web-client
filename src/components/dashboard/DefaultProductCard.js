@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import simulationImg from 'assets/img/simulation_placeholder.png';
 
-class EnvironmentCard extends Component {
+class DefaultProductCard extends Component {
     render() {
         const {id, name, thumbnail, description} = this.props;
 
         return (
-            <div className='environment-card'>
+            <div className='default-product-card'>
                 <div className='top'>
-                    <img src={simulationImg} alt=''/>
+                    <img src={thumbnail} alt=''/>
                 </div>
                 <div className='main'>
                     <div className='heading'>
@@ -23,4 +23,4 @@ class EnvironmentCard extends Component {
     }
 }
 
-export default EnvironmentCard;
+export default DefaultProductCard;

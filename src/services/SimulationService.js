@@ -33,6 +33,16 @@ class SimulationService {
                 return response.data;
             });
     }
+
+    postCreate(values) {
+        return simulair
+            .post(`/simulations`, values, {headers: AuthService.getAuthHeader()})
+            .then(response => {
+                console.log(response, response.data);
+
+                return response.data;
+            });
+    }
 }
 
 export default new SimulationService();

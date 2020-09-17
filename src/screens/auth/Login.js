@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import {Container, Form} from 'react-bootstrap';
-import Button from 'components/common/Button';
+import {Link} from "react-router-dom";
+import {toast} from "react-toastify";
 import Divider from 'components/common/Divider';
-
-import styles from './Login.module.scss';
+import styles from './LoginRegister.module.scss';
 import logoImg from 'assets/img/logo.png';
 import googleImg from 'assets/img/google.png';
-import {Link} from "react-router-dom";
-import InputText from "../../components/common/InputText";
 import AuthService from 'services/AuthService';
-import TextLoadingIcon from "../../components/common/TextLoadingIcon";
+import LoginForm from "../../components/auth/LoginForm";
+import LoadingBox from "../../components/common/LoadingBox";
+import {SIMULAIR_API} from "../../config/app";
+import queryString from "query-string";
 
 class Login extends Component {
     constructor(props) {
@@ -17,95 +18,68 @@ class Login extends Component {
 
         this.state = {
             loginInProgress: false,
-            email: '',
-            password: '',
-            message: ''
+            apiErrorResponse: null,
+            email: ''
         };
     }
 
     componentDidMount() {
-        console.log("req sent");
-        //this.login();
-        //this.logout();
+        const params = queryString.parse(this.props.location.search);
+        if (params.verify) {
+            toast.info(`Email verified successfully, you may now login.`);
+        }
+        if (params.email) {
+            this.setState({email: params.email});
+        }
     }
 
-    login() {
-        AuthService.login('test@lubarto.com', 'password').then((response) => {
-            console.log(response);
-        }).catch(error => {
-            console.log('err')
-        });
-    }
-
-    logout() {
-        AuthService.logout().then((response) => {
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    handleLogin = (e) => {
+    handleFormSubmit = (values) => {
         this.setState({loginInProgress: true});
 
-        AuthService.login('lukabartolic11@gmail.com', 'password').then((response) => {
-            console.log(response);
-            this.setState({loginInProgress: false});
+        const {email, password} = values;
+
+        AuthService.postLogin(email, password).then((response) => {
             this.props.history.push("/app");
+            toast.success(`Logged in successfully!`);
         }).catch(error => {
-            console.log(error);
+            if (error.response) {
+                this.setState({apiErrorResponse: error.response});
+            }
+            this.setState({loginInProgress: false});
         });
-    }
-
-    componentDidUpdate() {
-    }
-
-    componentWillUnmount() {
     }
 
     render() {
         return (
             <div className={styles.vCenter}>
                 <Container className={styles.wrapper}>
+                    {(this.state.loginInProgress) &&
+                    <LoadingBox hasBackdrop/>
+                    }
                     <Container className={styles.content}>
                         <div className={styles.logo}>
                             <img src={logoImg} alt=''/>
                         </div>
                         <Divider spacing={45}/>
-                        <Form.Group className={styles.inputBox}>
-                            <Form.Label>Email</Form.Label>
-                            <InputText type="bordered" inputType="email" placeholder="Enter email"/>
-                        </Form.Group>
-                        <Divider spacing={20}/>
-                        <Form.Group className={styles.inputBox}>
-                            <Form.Label>Password</Form.Label>
-                            <InputText type="bordered" inputType="password" placeholder="Enter password"/>
-                        </Form.Group>
-                        <Divider spacing={25}/>
-                        <Form.Group className={`${styles.inputBox} ${styles.remember}`} controlId="rememberMe">
-                            <Form.Check custom type="checkbox" label="Remember me"/>
-                        </Form.Group>
-                        <Divider spacing={50}/>
-                        <Button type="primary" size="lg" outline className={`_center-block`}
-                                onClick={this.handleLogin}
-                                disabled={this.state.loginInProgress}
-                        >
-                            {this.state.loginInProgress && (
-                                <TextLoadingIcon/>
-                            )}
-                            Login
-                        </Button>
+                        <LoginForm
+                            email={this.state.email}
+                            loginInProgress={this.state.loginInProgress}
+                            onFormSubmit={this.handleFormSubmit}
+                            apiErrorResponse={this.state.apiErrorResponse}
+                        />
                         <Divider spacing={45}/>
                         <div className={styles.providersHolder}>
                             <p>or login with</p>
                             <div className={styles.list}>
                                 <div className={styles.item}>
-                                    <img src={googleImg}/>
+                                    <a href={`${SIMULAIR_API.BASE_URL}/${SIMULAIR_API.GOOGLE_AUTH_PATH}`}>
+                                        <img src={googleImg}/>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                         <Divider spacing={50}/>
-                        <p className={styles.register}>Not a member? <a href='#'>Sign up now!</a></p>
+                        <p className={styles.register}>Not a member? <Link to='/register'>Sign up now!</Link></p>
                     </Container>
                 </Container>
             </div>

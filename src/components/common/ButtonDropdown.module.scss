@@ -5,6 +5,13 @@
   width: 100%;
 }
 
+.button-text {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .btn-dropdown {
   width: 100%;
   text-align: left;

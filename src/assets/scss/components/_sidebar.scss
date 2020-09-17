@@ -12,11 +12,28 @@
   }
 
   .logo {
-    padding: 0 70px;
+    margin: 0 auto;
 
-    img {
-      width: 100%;
-      height: auto;
+    .logo-holder {
+      width: 250px;
+      margin: -12px auto auto auto;
+      padding: 12px 15px;
+      border-radius: $border-radius-lg;
+      transition: all 0.15s;
+
+      &:hover {
+        background: $color-bcg-grey-hover;
+
+        img {
+          transform: scale(0.95);
+        }
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        transition: all 0.15s;
+      }
     }
   }
 
@@ -25,15 +42,28 @@
     text-align: center;
 
     .image-holder {
-      width: 115px;
-      height: 115px;
+      width: 120px;
+      height: 120px;
+      position: relative;
       margin: 0 auto 20px auto;
       background: #aaa;
       border-radius: 50%;
       overflow: hidden;
 
-      img {
-        width: 100%;
+      .image-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
 

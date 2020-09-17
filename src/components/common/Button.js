@@ -12,7 +12,7 @@ const buttonSizes = () => {
 };
 
 const Button = (props) => {
-    const {type, size, outline, className, icon, children, ...rest} = props;
+    const {type, size, outline, className, icon, children, inputType, ...rest} = props;
     // types: primary, secondary, tertiary, light
     // size: lg, md, sm
     // outline: true|false
@@ -32,11 +32,12 @@ const Button = (props) => {
         <VendorButton
             variant={(outline) ? 'outline-primary' : 'primary'}
             className={btnClasses}
+            type={inputType}
             {...rest}
         >
             {icon &&
                 <div className={styles.icon}>
-                    <i className="fas fa-camera" />
+                    <i className={icon} />
                 </div>
             }
             {children}

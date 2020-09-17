@@ -6,37 +6,16 @@ import * as constants from "../../config/constants/simulations";
 
 class SimulationList extends Component {
     handleStatusUpdate = (id, status) => {
-        const simulations = {...this.props.simulations};
+        const simulations = [...this.props.simulations];
         const simulation = _.find(simulations, sim => {
             return sim.id === id;
         });
 
-        if (status !== this.props.filters[constants.FILTER_TYPES.STATUS]) {
+        if (status !== this.props.filters['status']) {
+            const index = simulations.findIndex(s => s.id === simulation.id);
             const filteredSimulations = _.filter(simulations, simulation => simulation.id !== id);
-            this.props.onStatusUpdate(filteredSimulations, simulation, status);
+            this.props.onStatusUpdate(filteredSimulations, simulation, status, index);
         }
-    }
-
-    renderList() {
-        /*return (
-            <TransitionGroup {...{
-                appear: false,
-                enter: true,
-                exit: true
-            }}>
-                {this.state.simulations.map((simulation) => {
-                    const {id, name, status, thumbnail, description} = simulation;
-
-                    return (
-                        <Fade key={id} when={false} duration={600} collapse bottom>
-                            <SimulationCard onStatusUpdate={this.updateSimulationStatus} {
-                                ...{key: id, id, name, status, thumbnail, description}
-                            }/>
-                        </Fade>
-                    );
-                })}
-            </TransitionGroup>
-        )*/
     }
 
     render() {

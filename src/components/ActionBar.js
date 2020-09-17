@@ -22,8 +22,6 @@ class ActionBar extends Component {
             {id: 4, text: 'Your Robots'},
             {id: 5, text: 'Sign Out'},
         ];
-
-        console.log(this.props);
     }
 
     onSearchSubmit = (e) => {
@@ -41,7 +39,7 @@ class ActionBar extends Component {
     };
 
     handleLogout() {
-        AuthService.logout()
+        AuthService.postLogout()
             .then(() => {
                 this.props.history.push("/app");
             })
@@ -52,7 +50,6 @@ class ActionBar extends Component {
 
     handleMenuItemSelect = (item) => {
         const {history} = this.props;
-        console.log(this.props);
 
         switch (item.id) {
             case 1:

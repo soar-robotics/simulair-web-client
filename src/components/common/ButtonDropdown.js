@@ -6,7 +6,7 @@ import styles from './ButtonDropdown.module.scss';
 import ButtonIcon from "./ButtonIcon";
 
 const ButtonDropdown = (props) => {
-    const {type, size, className, items, leadText, iconButton, onItemSelect, children, ...rest} = props;
+    const {type, size, className, items, leadText, iconButton, onItemSelect, children, textKey, ...rest} = props;
     // types: primary, secondary, tertiary
     // size: lg, md, sm
     // plain: true|false
@@ -22,6 +22,8 @@ const ButtonDropdown = (props) => {
     ];*/
 
     const dropdownItems = (items) ? items : [];
+
+    const textKeyProp = props.textKey || "text";
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside, false);
@@ -47,7 +49,7 @@ const ButtonDropdown = (props) => {
     }
 
     const renderButtonText = () => {
-        return (activeItem === null) ? children : activeItem.text;
+        return (activeItem === null) ? children : activeItem[textKeyProp];
     }
 
     const btnTypes = buttonTypes();
@@ -87,7 +89,7 @@ const ButtonDropdown = (props) => {
                     onClick={handleButtonClick}
                     {...rest}
                 >
-                    {renderButtonText()}
+                    <span className={styles['button-text']}>{renderButtonText()}</span>
                     <div className={styles['dropdown-icon']}>
                         <i className='fas fa-caret-down'/>
                     </div>
@@ -109,7 +111,7 @@ const ButtonDropdown = (props) => {
                                     onClick={() => selectItem(dropdownItem)}
                                 >
                                     <div className={styles['dropdown-item-inner']}>
-                                        {dropdownItem.text}
+                                        {dropdownItem[textKeyProp]}
                                     </div>
                                 </div>
                             );

@@ -11,6 +11,7 @@ import SimulationService from "../../services/SimulationService";
 import LoadingBox from "../../components/common/LoadingBox";
 import SimulationList from "../../components/dashboard/SimulationList";
 import Button from "../../components/common/Button";
+import UserProfileEdit from "./UserProfileEdit";
 
 class SimulationIndex extends Component {
     constructor(props) {
@@ -25,14 +26,15 @@ class SimulationIndex extends Component {
             simulations: [],
             openedSimulation: null,
             filters: {
-                [constants.FILTER_TYPES.STATUS]: status || constants.TYPES.RUNNING,
-                [constants.FILTER_TYPES.SEARCH]: search || ''
-            }
+                status: status || 'running',
+                search: search || ''
+            },
+            showSimulationCreate: false
         }
     }
 
     componentDidMount() {
-        this.getSimulations(this.state.filters[constants.FILTER_TYPES.STATUS], this.state.filters[constants.FILTER_TYPES.SEARCH]);
+        this.getSimulations();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,39 +46,35 @@ class SimulationIndex extends Component {
             (location.pathname === prevProps.location.pathname)) {
             this.setState({
                 filters: {
-                    [constants.FILTER_TYPES.STATUS]: status || constants.TYPES.RUNNING,
-                    [constants.FILTER_TYPES.SEARCH]: search || ''
+                    status: status || 'running',
+                    search: search || ''
                 }
             })
         }
 
         if (!_.isEqual(prevState.filters, this.state.filters)) {
-            this.getSimulations(this.state.filters[constants.FILTER_TYPES.STATUS], this.state.filters[constants.FILTER_TYPES.SEARCH]);
+            this.getSimulations();
         }
     }
 
-    getSimulations(status, search) {
+    getSimulations() {
+        const {status, search} = this.state.filters;
+
         this.setState({
             isFetching: true
         });
         SimulationService.getSimulations(status, search)
             .then((response) => {
                 this.setState({
-                    simulations: response.data
+                    simulations: response.data,
+                    openedSimulation: (response.data[0]) ? response.data[0].id : null
                 });
-                if (!_.isEmpty(response.data)) {
-                    this.toggleSimulationOpen(response.data[0].id);
-                }
             })
             .finally(() => {
                 this.setState({
                     isFetching: false
                 });
             });
-    }
-
-    getModalCreate = () => {
-        this.props.history.push(`${this.props.match.url}/create`);
     }
 
     getFiltersFromQueryString() {
@@ -98,15 +96,32 @@ class SimulationIndex extends Component {
     }
 
     applySearch = (value) => {
-        this.setFilter(constants.FILTER_TYPES.SEARCH, value);
+        this.setFilter('search', value);
+    }
+
+    showSimulationCreate = () => {
+        return <SimulationCreate
+            onExited={() => this.setState({showSimulationCreate: false})}
+            onCreated={this.handleSimulationCreated}
+        />;
     }
 
     toggleSimulationOpen = (id) => {
         this.setState({openedSimulation: (id === this.state.openedSimulation) ? null : id});
     }
 
-    handleStatusUpdate = (filteredSimulations, updatedSimulation, status) => {
+    handleSimulationCreated = (simulation) => {
+        this.getSimulations();
+    }
+
+    handleStatusUpdate = (filteredSimulations, updatedSimulation, status, index) => {
         this.setState({simulations: filteredSimulations});
+
+        // toggle (open) next simulation card after removing the current one from the list
+        if (this.state.simulations[index]) {
+            this.toggleSimulationOpen(this.state.simulations[index].id);
+        }
+
         toast.info(`Status set to "${status}" for simulation ${updatedSimulation.name}.`);
     }
 
@@ -118,26 +133,29 @@ class SimulationIndex extends Component {
         return (
             <Fragment>
                 <Button type="tertiary" size="lg"
-                        outline={(this.state.filters.status !== constants.TYPES.RUNNING)}
-                        icon
-                        onClick={() => this.setFilter(constants.FILTER_TYPES.STATUS, constants.TYPES.RUNNING)}
+                        outline={(this.state.filters.status !== 'running')}
+                        icon='fas fa-play'
+                        onClick={() => this.setFilter('status', 'running')}
                 >
                     Runs
                 </Button>
                 <Button type="tertiary" size="lg"
-                        outline={(this.state.filters.status !== constants.TYPES.STOPPED)}
-                        icon
-                        onClick={() => this.setFilter(constants.FILTER_TYPES.STATUS, constants.TYPES.STOPPED)}
+                        outline={(this.state.filters.status !== 'stopped')}
+                        icon='fas fa-align-left'
+                        onClick={() => this.setFilter('status', 'stopped')}
                 >
                     History
                 </Button>
-                <Button type="secondary" size="lg" outline icon onClick={this.getModalCreate}>New</Button>
+                <Button type="secondary" size="lg" outline icon='fas fa-plus'
+                        onClick={() => this.setState({showSimulationCreate: true})}
+                >
+                    New
+                </Button>
             </Fragment>
         );
     }
 
     render() {
-        console.log('INDEX RENDER');
         return (
             <Fragment>
                 <ActionBar initialSearch={this.initialSearch} onSearchSubmit={this.applySearch}>
@@ -147,10 +165,10 @@ class SimulationIndex extends Component {
                 <Divider spacing={70}/>
 
                 <div className='simulations-content'>
-                    {(this.state.filters.status === constants.TYPES.RUNNING) &&
+                    {(this.state.filters.status === 'running') &&
                     <h1>Active Instances</h1>
                     }
-                    {(this.state.filters.status === constants.TYPES.STOPPED) &&
+                    {(this.state.filters.status === 'stopped') &&
                     <h1>Stopped Instances</h1>
                     }
                     <div className='simulations-holder'>
@@ -168,9 +186,8 @@ class SimulationIndex extends Component {
                         }
                     </div>
                 </div>
-                <Switch>
-                    <Route path={`${this.props.match.path}/create`} component={SimulationCreate}/>
-                </Switch>
+
+                {(this.state.showSimulationCreate) ? this.showSimulationCreate() : null}
             </Fragment>
         );
     }

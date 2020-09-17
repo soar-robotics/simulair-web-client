@@ -1,64 +1,111 @@
 import React, {Component, Fragment} from 'react';
+import {updateUser, updateUserImage} from "../../store/actions";
 import ModalDefault from "../../components/ModalDefault";
-import imgPlaceholder from "../../assets/img/simulation_placeholder.png";
+import profileImgPlaceholder from 'assets/img/profile.png';
 import Divider from "../../components/common/Divider";
 import InputText from "../../components/common/InputText";
 import Button from "../../components/common/Button";
 import {Row, Col} from "react-bootstrap";
+import UserProfileEditForm from "../../components/dashboard/UserProfileEditForm";
+import {connect} from "react-redux";
+import {fetchAuthUser} from "../../store/actions";
+import LoginForm from "../../components/auth/LoginForm";
+import AuthService from "../../services/AuthService";
+import {toast} from "react-toastify";
 
 class UserProfileEdit extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            updateInProgress: false,
+            apiErrorResponse: null,
             show: true
         }
+
+        this.imageInputRef = React.createRef();
+    }
+
+    closeModal = () => {
+        this.setState({show: false});
     }
 
     onHide = () => {
-        this.setState({show: false});
+        this.closeModal();
     }
 
     onExited = () => {
         this.props.onExited();
     }
 
+    handleFormSubmit = (values) => {
+        this.setState({
+            updateInProgress: true,
+            apiErrorResponse: null
+        });
+
+        AuthService.patchUpdateMe(values).then((response) => {
+            this.props.updateUser(response.data);
+            toast.success(`Profile info updated.`);
+            this.closeModal();
+        }).catch(error => {
+            if (error.response) {
+                this.setState({apiErrorResponse: error.response});
+            }
+        }).finally(() => {
+            this.setState({updateInProgress: false});
+        });
+    }
+
+    showFilePicker = () => {
+        this.imageInputRef.current.click();
+    }
+
+    handleFileSelect = (e) => {
+        const file = e.target.files[0];
+
+        this.setState({updateInProgress: true});
+
+        AuthService.postUpdateImage(file).then(response => {
+            this.props.updateUserImage(response.data.profile_image);
+            toast.success(`Profile image updated.`);
+        }).catch(error => {
+           console.log(error);
+        }).finally(() => {
+            this.setState({updateInProgress: false});
+        });
+    }
+
     renderContent = () => {
         return (
-            <Fragment>
-                <div>
-                    <Row>
-                        <Col>
-                            <InputText type="bordered" inputType="text" label="First Name" placeholder="First name"/>
-                        </Col>
-                        <Col>
-                            <InputText type="bordered" inputType="text" label="Last Name" placeholder="Last name"/>
-                        </Col>
-                    </Row>
-                </div>
-                <Divider spacing={25}/>
-                <InputText type="bordered" inputType="text" label="Username" placeholder="Username"/>
-                <Divider spacing={25}/>
-                <InputText type="bordered" inputType="text" label="Company" placeholder="Company"/>
-                <Divider spacing={25}/>
-                <InputText type="bordered" inputType="text" label="Email" placeholder="Email"/>
-                <Divider spacing={60}/>
-                <Button type="primary" size="lg" outline className={`_center-block`}>Submit Changes</Button>
-            </Fragment>
+            <UserProfileEditForm
+                updateInProgress={this.state.updateInProgress}
+                authUser={this.props.authUser}
+                apiErrorResponse={this.state.apiErrorResponse}
+                onFormSubmit={this.handleFormSubmit}
+            />
         );
     }
 
     renderSide = () => {
+        const {profileImage} = this.props.authUser;
         return (
             <Fragment>
                 <div className='profile-image'>
                     <div className='image-holder'>
                         <div className='image-inner'>
-                            <img src={imgPlaceholder} alt=''/>
+                            <img src={(profileImage) ? profileImage : profileImgPlaceholder} alt='Profile image'/>
                         </div>
                     </div>
                     <div className='form'>
-                        <Button type="light" size="sm" icon className={`_center-block`}>Upload Photo</Button>
+                        <input hidden type="file" accept="image/*"
+                               onChange={this.handleFileSelect}
+                               ref={this.imageInputRef}/>
+                        <Button type="light" size="sm" icon='fas fa-upload' className={`_center-block`}
+                                onClick={this.showFilePicker}
+                        >
+                            Upload Photo
+                        </Button>
                     </div>
                 </div>
             </Fragment>
@@ -70,7 +117,6 @@ class UserProfileEdit extends Component {
     }
 
     render() {
-        console.log('create');
         return (
             <ModalDefault
                 show={this.state.show}
@@ -81,9 +127,14 @@ class UserProfileEdit extends Component {
                 renderSide={this.renderSide}
                 renderContent={this.renderContent}
                 renderFooter={this.renderFooter}
+                isLoading={this.state.updateInProgress}
             />
         );
     }
 }
 
-export default UserProfileEdit;
+const mapStateToProps = (state) => {
+    return {authUser: state.auth.user};
+};
+
+export default connect(mapStateToProps, {updateUser, updateUserImage})(UserProfileEdit);

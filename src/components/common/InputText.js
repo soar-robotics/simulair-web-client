@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import styles from './InputText.module.scss';
 import {Form} from "react-bootstrap";
 
-const InputText = (props) => {
+const InputText = React.forwardRef((props, ref) => {
     const {type, inputType, size, placeholder, label, children, ...rest} = props;
     // type: basic, bordered
     // inputType: password, email, text,...
@@ -19,10 +19,10 @@ const InputText = (props) => {
             {(label) &&
             <Form.Label>{label}</Form.Label>
             }
-            <Form.Control className={inputClasses} type={inputType} placeholder={placeholder} {...rest}/>
+            <Form.Control className={inputClasses} type={inputType} placeholder={placeholder} ref={ref} {...rest}/>
         </Fragment>
     );
-};
+});
 
 export default InputText;
 

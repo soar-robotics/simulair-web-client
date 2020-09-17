@@ -52,6 +52,9 @@
         padding: 20px 25px 70px 25px;
         text-align: center;
         justify-content: center;
+        &.no-footer {
+          padding-top: 0;
+        }
 
         button {
           padding-left: 40px;

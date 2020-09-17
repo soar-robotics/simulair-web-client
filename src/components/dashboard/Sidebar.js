@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 
 import logoImg from 'assets/img/logo.png';
-import profileImg from 'assets/img/profile.png';
+import profileImgPlaceholder from 'assets/img/profile.png';
 import Divider from "../common/Divider";
 import {Link, matchPath} from "react-router-dom";
+import {connect} from "react-redux";
 
 class Sidebar extends Component {
     constructor(props) {
@@ -51,18 +52,29 @@ class Sidebar extends Component {
     }
 
     render() {
+        const authUser = this.props.authUser;
+        console.log(logoImg);
+
         return (
             <div className='sidebar'>
                 <div className='sidebar-inner sticky-top'>
                     <div className='logo'>
-                        <img src={logoImg} alt=''/>
+                        <div className='logo-holder'>
+                            <Link to={`${this.props.match.path}`}>
+                                <img src={logoImg} alt=''/>
+                            </Link>
+                        </div>
                     </div>
                     <Divider spacing={65}/>
                     <div className='profile'>
                         <div className='image-holder'>
-                            <img src={profileImg} alt=''/>
+                            <div className='image-inner'>
+                                <img src={(authUser.profileImage) ? authUser.profileImage : profileImgPlaceholder}
+                                     alt='Profile image'
+                                />
+                            </div>
                         </div>
-                        <span>Luka Bartolic</span>
+                        <span>{authUser.fullName}</span>
                     </div>
                     <Divider spacing={75}/>
                     <div className='sidebar-nav'>
@@ -74,4 +86,8 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+    return {authUser: state.auth.user};
+};
+
+export default connect(mapStateToProps)(Sidebar);

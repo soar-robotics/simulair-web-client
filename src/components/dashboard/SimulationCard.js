@@ -35,7 +35,6 @@ class SimulationCard extends Component {
 
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
-        console.log('CARD RENDER');
 
         return (
             <div className='simulation-card-holder'>
@@ -43,12 +42,12 @@ class SimulationCard extends Component {
                     {(this.state.isUpdating) &&
                     <LoadingBox hasBackdrop/>
                     }
-                    <div className='top'>
+                    <div className='top' onClick={this.toggleOpen}>
                         <div className='heading'>
                             <span>{name}, {status}</span>
                         </div>
                         <div className='btn-holder'>
-                            <ButtonIcon type="tertiary" size="sm" onClick={this.toggleOpen}>
+                            <ButtonIcon type="tertiary" size="sm">
                                 <i className={`fas fa-caret-${(opened) ? 'down' : 'right'} fa-2x`}/>
                             </ButtonIcon>
                         </div>
@@ -58,7 +57,7 @@ class SimulationCard extends Component {
                             <div className={`main`}>
                                 <div className='left'>
                                     <div className='img-holder'>
-                                        <img src={simulationImg} alt=''/>
+                                        <img src={thumbnail} alt=''/>
                                     </div>
                                 </div>
                                 <div className='middle'>
@@ -70,15 +69,15 @@ class SimulationCard extends Component {
                                     </p>
                                 </div>
                                 <div className='right'>
-                                    <Button type="primary" size="sm" icon
+                                    <Button type="primary" size="sm" icon='fas fa-play'
                                             onClick={() => this.changeStatus(id, 'running')}>
                                         Run
                                     </Button>
-                                    <Button type="primary" size="sm" outline icon
+                                    <Button type="primary" size="sm" outline icon='fas fa-stop'
                                             onClick={() => this.changeStatus(id, 'stopped')}>
                                         Stop
                                     </Button>
-                                    <Button type="primary" size="sm" outline icon>View</Button>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye'>View</Button>
                                 </div>
                             </div>
                         </div>

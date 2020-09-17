@@ -1,11 +1,29 @@
 import React, {Component} from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {fetchAuthUser} from "../../store/actions";
 import SimulationIndex from "./SimulationIndex";
 import EnvironmentIndex from "./EnvironmentIndex";
 import RobotIndex from "./RobotIndex";
 import Sidebar from "../../components/dashboard/Sidebar";
+import AuthService from "../../services/AuthService";
+import SimulationService from "../../services/SimulationService";
+import _ from "lodash";
 
 class Dashboard extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        // initialize currently authenticated user in global state
+        this.props.fetchAuthUser();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.props.authUser);
+    }
+
     render() {
         const {path} = this.props.match;
 
@@ -28,4 +46,8 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+    return {authUser: state.auth.user};
+};
+
+export default connect(mapStateToProps, {fetchAuthUser})(Dashboard);

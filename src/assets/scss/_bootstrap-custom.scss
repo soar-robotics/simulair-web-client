@@ -1,3 +1,24 @@
 /* Bootstrap SCSS initialisation and global overrides */
-
 @import "~bootstrap/scss/bootstrap";
+
+.alert {
+  border-radius: $border-radius-sm;
+  margin: 0;
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.form-group {
+  margin-bottom: 25px;
+  .alert {
+    margin-top: 0.7rem;
+  }
+}
+
+a {
+  color: $color-primary;
+  &:hover {
+    color: darken($color-primary, 15);
+  }
+}

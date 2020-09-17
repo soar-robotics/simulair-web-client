@@ -4,33 +4,71 @@ import {environments as environmentsData} from "../../config/sample-data";
 import * as constants from "../../config/constants/environments";
 import ButtonIcon from "../../components/common/ButtonIcon";
 import Divider from "../../components/common/Divider";
-import EnvironmentCard from "../../components/dashboard/EnvironmentCard";
+import DefaultProductCard from "../../components/dashboard/DefaultProductCard";
 import ActionBar from "../../components/ActionBar";
+import SimulationService from "../../services/SimulationService";
+import EnvironmentService from "../../services/EnvironmentService";
+import _ from "lodash";
 
 class EnvironmentIndex extends Component {
     constructor(props) {
         super(props);
 
-        const {search} = queryString.parse(this.props.location.search);
+        const {search} = this.getFiltersFromQueryString();
 
         this.state = {
-            environments: environmentsData,
+            environments: [],
             display: 'grid',
             filters: {
-                [constants.FILTER_TYPES.SEARCH]: search || ''
-            }
+                search: search || ''
+            },
+            isFetching: false
         }
 
         this.initialSearch = search;
     }
 
     componentDidMount() {
-        const environments = this.getEnvironments();
-        this.setState({environments: environments});
+        this.getEnvironments();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {search} = this.getFiltersFromQueryString();
+        const {location} = this.props;
+
+        // set state values based on change in query string due to navigation
+        if ((location.search !== prevProps.location.search) &&
+            (location.pathname === prevProps.location.pathname)) {
+            this.setState({filters: {search: search || ''}})
+        }
+
+        if (!_.isEqual(prevState.filters, this.state.filters)) {
+            this.getEnvironments();
+        }
     }
 
     getEnvironments() {
-        return environmentsData;
+        const {search} = this.state.filters;
+
+        this.setState({
+            isFetching: true
+        });
+        EnvironmentService.getEnvironments(search)
+            .then((response) => {
+                this.setState({
+                    environments: response.data
+                });
+            })
+            .finally(() => {
+                this.setState({
+                    isFetching: false
+                });
+            });
+    }
+
+    getFiltersFromQueryString() {
+        const filters = queryString.parse(this.props.location.search);
+        return {search: filters.search};
     }
 
     setFilter(filterType, value) {
@@ -47,7 +85,7 @@ class EnvironmentIndex extends Component {
     }
 
     applySearch = (value) => {
-        this.setFilter(constants.FILTER_TYPES.SEARCH, value);
+        this.setFilter('search', value);
     }
 
     changeDisplay(display) {
@@ -59,7 +97,7 @@ class EnvironmentIndex extends Component {
             const {id, name, thumbnail, description} = environment;
 
             return (
-                <EnvironmentCard {...{key: id, id, name, thumbnail, description}}/>
+                <DefaultProductCard {...{key: id, id, name, thumbnail, description}}/>
             );
         });
     }
@@ -78,7 +116,6 @@ class EnvironmentIndex extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <Fragment>
                 <ActionBar initialSearch={this.initialSearch} onSearchSubmit={this.applySearch}>
@@ -87,8 +124,8 @@ class EnvironmentIndex extends Component {
 
                 <Divider spacing={70}/>
 
-                <div className={`environments-content ${(this.state.display === 'grid') ? 'grid' : 'list-display'}`}>
-                    <div className='environments-holder'>
+                <div className={`default-product-content ${(this.state.display === 'grid') ? 'grid' : 'list-display'}`}>
+                    <div className='default-product-holder'>
                         {this.renderEnvironments()}
                     </div>
                 </div>

@@ -15,11 +15,63 @@
   box-shadow: $shadow-container;
   border-radius: $border-radius-lg;
   margin: 30px auto;
+  position: relative;
+  overflow: hidden;
+  &.register {
+    max-width: 1200px !important;
+    padding: 80px 100px;
+  }
 }
 
 .content {
   width: 100%;
   padding: 0;
+
+  .content-grid {
+    display: flex;
+    justify-content: space-between;
+    .left {
+      width: 320px;
+      padding-right: 100px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 100px;
+        right: 0;
+        border-right: 1px solid #c3c3cb;
+      }
+      .providersHolder {
+        width: 100%;
+        margin-top: -200px;
+        p {
+          color: $font-color-dark;
+          font-weight: $font-weight-strong;
+        }
+
+        .list {
+          width: 100%;
+
+          .item {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+
+            img {
+              width: 210px;
+            }
+          }
+        }
+      }
+    }
+    .main {
+      width: 100%;
+      margin-left: 100px;
+    }
+  }
 
   .logo {
     text-align: center;
@@ -30,20 +82,9 @@
     }
   }
 
-  .inputBox {
-    //padding: 0 0 20px 0;
-    margin-bottom: 0;
-    padding: 0;
-
-    label {
-      font-size: $font-size-title-px;
-      font-weight: $font-weight-strong;
-      margin-bottom: 10px;
-      color: $font-color-dark;
-    }
-
-    &.remember {
-      //padding-bottom: 50px;
+  .checkbox {
+    //padding-bottom: 50px;
+    :global(.custom-checkbox) {
 
       label {
         font-size: $font-size-base-px;
@@ -58,7 +99,7 @@
           border-color: $color-primary;
           border-radius: 5px;
           border-width: 2px;
-          top: 0.15rem;
+          top: 0;
         }
 
         &::after {
@@ -66,7 +107,7 @@
           background-position: center;
           width: 20px;
           height: 20px;
-          top: 0.15rem;
+          top: 0;
         }
       }
 
@@ -78,9 +119,8 @@
 
   .providersHolder {
     p {
-      //margin-bottom: 10px;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .list {
@@ -100,9 +140,5 @@
 
   p.register {
     text-align: center;
-
-    a {
-      color: $color-primary;
-    }
   }
 }
