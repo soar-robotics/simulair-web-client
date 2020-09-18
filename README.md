@@ -1,3 +1,17 @@
+# Simulair Web Client
+- quick installation can be done by following Create React App guide
+
+## Additional configuration
+Configuration values must be changed/set prior to starting or building the app in /src/config/app.js
+- BASE_URL must be set to match the root API endpoint
+- GOOGLE_AUTH_PATH is a path to API's authentication using Google Sign In functionality
+
+## Notes
+TODO: Setup, configuration and build will be automated once the solution is containerized through Docker containers, which will make it easier to run, test and deploy the solution.
+
+
+# Create React App - Official Docs
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
