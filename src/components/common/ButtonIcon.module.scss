@@ -1,0 +1,39 @@
+@import "../../assets/scss/variables";
+
+.btn-icon, .btn-lg {
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+}
+
+.btn-sm {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 12px;
+  border-radius: $border-radius-sm;
+}
+
+.btn-icon.btn-plain {
+  background: none;
+  &:hover {
+    background: none;
+    &.btn-primary {
+      color: darken($color-primary, 7);
+    }
+  }
+  &:active {
+    &.btn-primary {
+      background-color: unset;
+    }
+  }
+  &:active:focus, &:focus {
+    &.btn-primary {
+      box-shadow: none;
+    }
+  }
+  &.btn-primary {
+    color: $color-primary;
+  }
+}

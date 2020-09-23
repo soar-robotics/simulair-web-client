@@ -1,0 +1,34 @@
+/* ReactToastify initialisation and global overrides */
+
+@import '~react-toastify/dist/ReactToastify';
+
+.Toastify__toast-container {
+  width: 380px;
+}
+
+.Toastify__toast {
+  border-radius: 15px;
+  padding: 22px 25px;
+  font-family: inherit;
+  .Toastify__toast-body {
+    font-size: $font-size-notification-px;
+  }
+  .Toastify__progress-bar {
+    background: #fff;
+  }
+}
+
+.Toastify__toast--info {
+  background: #ffffff;
+  color: $font-color-main;
+  .Toastify__close-button--info {
+    color: #111;
+  }
+  .Toastify__progress-bar--info {
+    background: $color-primary;
+  }
+}
+
+.Toastify__toast--success {
+  background: $color-action1;
+}

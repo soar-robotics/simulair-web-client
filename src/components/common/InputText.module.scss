@@ -1,0 +1,32 @@
+@import "../../assets/scss/variables";
+
+.input {
+  &[type=email], &[type=password], &[type=text] {
+    height: auto;
+    font-size: $font-size-base-px;
+    //margin-top: 10px;
+    padding: 19px 25px;
+    border-radius: $border-radius-lg;
+    background: $color-bcg-light;
+    color: $font-color-text;
+
+    &::placeholder {
+      color: $font-color-placeholder;
+    }
+  }
+}
+
+label {
+  font-size: $font-size-title-px;
+  font-weight: $font-weight-strong;
+  margin-bottom: 10px;
+  color: $font-color-dark;
+}
+
+.basic {
+  border: none;
+}
+
+.bordered {
+  border: 2px solid #c3c3cb;
+}
