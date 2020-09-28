@@ -65,7 +65,6 @@ class Sidebar extends Component {
                             </Link>
                         </div>
                     </div>
-                    <Divider spacing={65}/>
                     <div className='profile'>
                         <div className='image-holder'>
                             <div className='image-inner'>

@@ -1,13 +1,21 @@
 .simulations-content {
-  margin: 0 auto;
+  margin: 70px auto 0 auto;
   width: 100%;
   max-width: 800px;
 
+  @include media-breakpoint-down(xxl) {
+    margin-top: 55px;
+    max-width: 720px;
+  }
+
   h1 {
-    font-size: 30px;
+    font-size: $font-size-heading-px;
     padding: 0 0 45px 30px;
     color: $font-color-dark;
     margin: 0;
+    @include media-breakpoint-down(xxl) {
+      font-size: $font-size-heading-px-xxl;
+    }
   }
 
   .simulations-holder {
@@ -48,7 +56,6 @@
           }
 
           &.shown {
-
           }
 
           .left {
@@ -92,6 +99,50 @@
             button {
               margin-bottom: 7px;
               display: block;
+              float: right;
+              width: 100%;
+            }
+          }
+        }
+
+        @include media-breakpoint-down(xxl) {
+          padding: 22px 28px;
+          border-radius: $border-radius-lg-xxl;
+
+          .top {
+            .heading {
+              span {
+                font-size: $font-size-title-px-xxl;
+              }
+            }
+          }
+
+          .main {
+            padding-top: 30px;
+
+            .left {
+              .img-holder {
+                width: 125px;
+                height: 125px;
+              }
+            }
+
+            .middle {
+              padding: 0 28px;
+
+              .heading {
+                span {
+                  font-size: $font-size-title-px-xxl;
+                }
+              }
+
+              p {
+                font-size: $font-size-base-px-xxl;
+              }
+            }
+
+            .right {
+              width: 110px;
             }
           }
         }

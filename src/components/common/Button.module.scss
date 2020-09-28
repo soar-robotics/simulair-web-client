@@ -1,287 +1,348 @@
+@import "~bootstrap/scss/mixins/_breakpoints";
 @import "../../assets/scss/variables";
 
-:global(.btn), :global(.btn-lg), .btn-lg {
-  line-height: 1;
-  font-size: $font-size-btn-lg-px;
-  font-weight: $font-weight-strong;
-  padding: 21px 80px;
-  border-radius: $border-radius-lg;
+:global(.btn),
+:global(.btn-lg),
+.btn-lg {
+    line-height: 1;
+    font-size: $font-size-btn-lg-px;
+    font-weight: $font-weight-strong;
+    padding: 21px 80px;
+    border-radius: $border-radius-lg;
 
-  .icon {
-    display: inline-block;
-    margin-right: 15px;
-    padding: 11px 13px;
-    border-radius: $border-radius-sm;
-    background: rgba(#fff, 0.25);
-
-    i {
-      font-size: 16px;
+    @include media-breakpoint-down(xxl) {
+        font-size: $font-size-btn-lg-px-xxl;
+        border-radius: $border-radius-lg-xxl;
+        padding: 19px 70px;
     }
-  }
 
-  &.has-icon {
-    padding: 10px 13px;
-    min-width: 200px;
-    text-align: left;
-  }
+    .icon {
+        display: inline-block;
+        margin-right: 15px;
+        padding: 11px 13px;
+        border-radius: $border-radius-sm;
+        background: rgba(#fff, 0.25);
+
+        i {
+            font-size: 16px;
+        }
+
+        @include media-breakpoint-down(xxl) {
+            padding: 9px 11px;
+            border-radius: $border-radius-sm-xxl;
+            i {
+                font-size: 14px;
+            }
+        }
+
+        @include media-breakpoint-down(xl) {
+            margin-right: 10px;
+            padding: 9px 10px;
+        }
+    }
+
+    &.has-icon {
+        padding: 10px 13px;
+        min-width: 200px;
+        text-align: left;
+
+        @include media-breakpoint-down(xxl) {
+            padding: 8px 11px;
+            min-width: 180px;
+        }
+
+        @include media-breakpoint-down(xl) {
+            padding-right: 32px;
+            min-width: auto;
+        }
+    }
 }
 
-:global(.btn-sm), .btn-sm {
-  font-size: $font-size-btn-sm-px;
-  border-radius: $border-radius-sm;
-  padding: 15px 50px;
+:global(.btn-sm),
+.btn-sm {
+    font-size: $font-size-btn-sm-px;
+    border-radius: $border-radius-sm;
+    padding: 15px 50px;
 
-  .icon {
-    padding: 0;
-    background: none;
-
-    i {
-      font-size: 16px;
+    @include media-breakpoint-down(xxl) {
+        font-size: $font-size-btn-sm-px-xxl;
+        border-radius: $border-radius-sm-xxl;
     }
-  }
 
-  &.has-icon {
-    padding: 15px 20px;
-    min-width: 120px;
-    text-align: left;
-  }
+    .icon {
+        padding: 0;
+        background: none;
+
+        i {
+            font-size: 16px;
+        }
+
+        @include media-breakpoint-down(xxl) {
+            i {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &.has-icon {
+        padding: 15px 20px;
+        min-width: 120px;
+        text-align: left;
+
+        @include media-breakpoint-down(xxl) {
+            padding: 12px 18px;
+            min-width: 110px;
+        }
+    }
 }
 
 .btn-md {
-  font-size: $font-size-btn-md-px;
-  border-radius: $border-radius-md;
-  padding: 16px 60px;
+    font-size: $font-size-btn-md-px;
+    border-radius: $border-radius-md;
+    padding: 16px 60px;
 }
 
 :global(.btn-primary) {
-  &, &:disabled {
-    background: $color-primary;
-    border: none;
-  }
+    &,
+    &:disabled {
+        background: $color-primary;
+        border: none;
+    }
 
-  &:not(:disabled):not(.disabled):active {
-    background-color: darken($color-primary, 7);
-  }
+    &:not(:disabled):not(.disabled):active {
+        background-color: darken($color-primary, 7);
+    }
 
-  &:hover:not(:disabled) {
-    background-color: darken($color-primary, 5);
-  }
+    &:hover:not(:disabled) {
+        background-color: darken($color-primary, 5);
+    }
 
-  &:focus {
-    background-color: darken($color-primary, 5);
-    box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
-  }
+    &:focus {
+        background-color: darken($color-primary, 5);
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
+    }
 
-  &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
-  }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
+    }
 }
 
 :global(.btn-outline-primary) {
-  &, &:disabled {
-    color: $color-primary;
-    border-color: $color-primary;
-    border-width: $btn-border-width;
-  }
-
-  &:not(:disabled):not(.disabled):active {
-    color: #fff;
-    background-color: darken($color-primary, 7);
-    border-color: $color-primary;
-  }
-
-  &:hover:not(:disabled) {
-    color: #fff;
-    background-color: $color-primary;
-    border-color: $color-primary;
-  }
-
-  &:focus, &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
-  }
-
-  &.btn-lg {
-    .icon {
-      background: $color-primary;
-
-      i {
-        color: #fff;
-      }
+    &,
+    &:disabled {
+        color: $color-primary;
+        border-color: $color-primary;
+        border-width: $btn-border-width;
     }
-  }
+
+    &:not(:disabled):not(.disabled):active {
+        color: #fff;
+        background-color: darken($color-primary, 7);
+        border-color: $color-primary;
+    }
+
+    &:hover:not(:disabled) {
+        color: #fff;
+        background-color: $color-primary;
+        border-color: $color-primary;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.5);
+    }
+
+    &.btn-lg {
+        .icon {
+            background: $color-primary;
+
+            i {
+                color: #fff;
+            }
+        }
+    }
 }
 
 .btn-secondary {
-  &, &:disabled {
-    background: $color-action1;
-  }
+    &,
+    &:disabled {
+        background: $color-action1;
+    }
 
-  &:not(:disabled):not(.disabled):active {
-    background-color: darken($color-action1, 7);
-  }
+    &:not(:disabled):not(.disabled):active {
+        background-color: darken($color-action1, 7);
+    }
 
-  &:hover:not(:disabled) {
-    background-color: darken($color-action1, 5);
-  }
+    &:hover:not(:disabled) {
+        background-color: darken($color-action1, 5);
+    }
 
-  &:focus {
-    background-color: darken($color-action1, 5);
-    box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
-  }
+    &:focus {
+        background-color: darken($color-action1, 5);
+        box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
+    }
 
-  &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
-  }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
+    }
 }
 
 .btn-outline-secondary {
-  &, &:disabled {
-    color: $color-action1;
-    border-color: $color-action1;
-    border-width: $btn-border-width;
-  }
-
-  &:not(:disabled):not(.disabled):active {
-    color: #fff;
-    background-color: darken($color-action1, 7);
-    border-color: $color-action1;
-  }
-
-  &:hover:not(:disabled) {
-    color: #fff;
-    background-color: $color-action1;
-    border-color: $color-action1;
-  }
-
-  &:focus, &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
-  }
-
-  &.btn-lg {
-    .icon {
-      background: $color-action1;
-
-      i {
-        color: #fff;
-      }
+    &,
+    &:disabled {
+        color: $color-action1;
+        border-color: $color-action1;
+        border-width: $btn-border-width;
     }
-  }
+
+    &:not(:disabled):not(.disabled):active {
+        color: #fff;
+        background-color: darken($color-action1, 7);
+        border-color: $color-action1;
+    }
+
+    &:hover:not(:disabled) {
+        color: #fff;
+        background-color: $color-action1;
+        border-color: $color-action1;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-action1, 0.5);
+    }
+
+    &.btn-lg {
+        .icon {
+            background: $color-action1;
+
+            i {
+                color: #fff;
+            }
+        }
+    }
 }
 
 .btn-tertiary {
-  &, &:disabled {
-    background: $color-action2;
-  }
+    &,
+    &:disabled {
+        background: $color-action2;
+    }
 
-  &:not(:disabled):not(.disabled):active {
-    background-color: darken($color-action2, 7);
-  }
+    &:not(:disabled):not(.disabled):active {
+        background-color: darken($color-action2, 7);
+    }
 
-  &:hover:not(:disabled) {
-    background-color: darken($color-action2, 5);
-  }
+    &:hover:not(:disabled) {
+        background-color: darken($color-action2, 5);
+    }
 
-  &:focus {
-    background-color: darken($color-action2, 5);
-    box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
-  }
+    &:focus {
+        background-color: darken($color-action2, 5);
+        box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
+    }
 
-  &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
-  }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
+    }
 }
 
 .btn-outline-tertiary {
-  &, &:disabled {
-    color: $color-action2;
-    border-color: $color-action2;
-    border-width: $btn-border-width;
-  }
-
-  &:not(:disabled):not(.disabled):active {
-    color: #fff;
-    background-color: darken($color-action2, 7);
-    border-color: $color-action2;
-  }
-
-  &:hover:not(:disabled) {
-    color: #fff;
-    background-color: $color-action2;
-    border-color: $color-action2;
-  }
-
-  &:focus, &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
-  }
-
-  &.btn-lg {
-    .icon {
-      background: $color-action2;
-
-      i {
-        color: #fff;
-      }
+    &,
+    &:disabled {
+        color: $color-action2;
+        border-color: $color-action2;
+        border-width: $btn-border-width;
     }
-  }
+
+    &:not(:disabled):not(.disabled):active {
+        color: #fff;
+        background-color: darken($color-action2, 7);
+        border-color: $color-action2;
+    }
+
+    &:hover:not(:disabled) {
+        color: #fff;
+        background-color: $color-action2;
+        border-color: $color-action2;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color-action2, 0.5);
+    }
+
+    &.btn-lg {
+        .icon {
+            background: $color-action2;
+
+            i {
+                color: #fff;
+            }
+        }
+    }
 }
 
 .btn-light {
-  &, &:disabled {
-    background: rgba(#fff, 0.25);
-  }
+    &,
+    &:disabled {
+        background: rgba(#fff, 0.25);
+    }
 
-  &:not(:disabled):not(.disabled):active {
-    background-color: darken(#fff, 7);
-    color: $color-primary;
-  }
+    &:not(:disabled):not(.disabled):active {
+        background-color: darken(#fff, 7);
+        color: $color-primary;
+    }
 
-  &:hover:not(:disabled) {
-    background-color: darken(#fff, 5);
-    color: $color-primary;
-  }
+    &:hover:not(:disabled) {
+        background-color: darken(#fff, 5);
+        color: $color-primary;
+    }
 
-  &:focus {
-    background-color: darken(#fff, 5);
-    box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
-    color: $color-primary;
-  }
+    &:focus {
+        background-color: darken(#fff, 5);
+        box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
+        color: $color-primary;
+    }
 
-  &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
-    color: $color-primary;
-  }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
+        color: $color-primary;
+    }
 }
 
 .btn-outline-light {
-  &, &:disabled {
-    color: #fff;
-    border-color: #fff;
-    border-width: $btn-border-width;
-  }
-
-  &:not(:disabled):not(.disabled):active {
-    color: #fff;
-    background-color: darken(#fff, 7);
-    border-color: #fff;
-  }
-
-  &:hover:not(:disabled) {
-    color: #fff;
-    background-color: #fff;
-    border-color: #fff;
-  }
-
-  &:focus, &:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
-  }
-
-  &.btn-lg {
-    .icon {
-      background: rgba(#fff, 0.25);
-
-      i {
+    &,
+    &:disabled {
         color: #fff;
-      }
+        border-color: #fff;
+        border-width: $btn-border-width;
     }
-  }
+
+    &:not(:disabled):not(.disabled):active {
+        color: #fff;
+        background-color: darken(#fff, 7);
+        border-color: #fff;
+    }
+
+    &:hover:not(:disabled) {
+        color: #fff;
+        background-color: #fff;
+        border-color: #fff;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(#fff, 0.5);
+    }
+
+    &.btn-lg {
+        .icon {
+            background: rgba(#fff, 0.25);
+
+            i {
+                color: #fff;
+            }
+        }
+    }
 }

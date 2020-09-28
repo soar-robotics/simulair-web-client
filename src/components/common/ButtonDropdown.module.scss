@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/mixins/_breakpoints";
 @import "../../assets/scss/variables";
 
 .dropdown {
@@ -54,6 +55,10 @@
     color: $font-color-text;
     text-align: right;
     padding: 12px 12px 0 12px;
+
+    @include media-breakpoint-down(xxl) {
+      font-size: $font-size-btn-sm-px-xxl;
+    }
   }
 
   .dropdown-item {
@@ -66,6 +71,12 @@
       border-radius: $border-radius-sm;
       font-size: $font-size-btn-sm-px;
       color: $font-color-text;
+
+      @include media-breakpoint-down(xxl) {
+        font-size: $font-size-btn-sm-px-xxl;
+        border-radius: $border-radius-sm-xxl;
+        padding: 12px;
+      }
     }
 
     &:hover {

@@ -162,8 +162,6 @@ class SimulationIndex extends Component {
                     {this.renderActionButtons()}
                 </ActionBar>
 
-                <Divider spacing={70}/>
-
                 <div className='simulations-content'>
                     {(this.state.filters.status === 'running') &&
                     <h1>Active Instances</h1>
