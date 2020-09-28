@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/mixins/_breakpoints";
 @import "../../assets/scss/variables";
 
 .input {
@@ -13,6 +14,12 @@
     &::placeholder {
       color: $font-color-placeholder;
     }
+
+    @media (max-width: map-get($grid-breakpoints, xxxl)) {
+      font-size: $font-size-base-px-xxl;
+      border-radius: $border-radius-lg-xxl;
+      padding: 16px 22px;
+    }
   }
 }
 
@@ -21,6 +28,10 @@ label {
   font-weight: $font-weight-strong;
   margin-bottom: 10px;
   color: $font-color-dark;
+
+  @include media-breakpoint-down(xxl) {
+    font-size: $font-size-title-px-xxl;
+  }
 }
 
 .basic {

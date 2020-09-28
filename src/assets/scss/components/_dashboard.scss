@@ -7,21 +7,35 @@
 
   .dashboard-content {
     margin-left: 375px;
-    padding-right: 20px;
+    padding-right: 15px;
     .content-container {
       padding-left: 45px;
       padding-right: 45px;
       padding-bottom: 80px;
     }
   }
+
+  @include media-breakpoint-down(xl) {
+    .dashboard-content {
+      margin-left: 315px;
+      .content-container {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+    }
+  }
 }
 
 .action-bar {
   padding: 50px 0;
+
   .items-left {
     float: left;
     button {
       margin-right: 15px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
   .items-right {
@@ -30,7 +44,7 @@
   }
   .search-holder {
     display: flex;
-    width: 450px;
+    width: 440px;
     input {
       flex: 1;
       margin-right: 8px;
@@ -40,6 +54,26 @@
     margin-left: 10px;
     .btn-dropdown-menu {
       box-shadow: $shadow-main-item;
+    }
+  }
+
+  @media (max-width: map-get($grid-breakpoints, xxxl)) {
+    display: flex;
+    justify-content: space-between;
+    .items-left {
+      flex: 1 0 auto;
+      button {
+        margin-right: 12px;
+      }
+    }
+    .items-right {
+      width: 100%;
+      justify-content: flex-end;
+      margin-left: 25px;
+    }
+    .search-holder {
+      flex-grow: 1;
+      width: auto;
     }
   }
 }
