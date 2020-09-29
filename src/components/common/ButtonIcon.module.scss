@@ -5,6 +5,11 @@
   width: 60px;
   height: 60px;
   font-size: 20px;
+  @media (max-width: map-get($grid-breakpoints, xxxl)) {
+    width: 54px;
+    height: 54px;
+    font-size: 19px;
+  }
 }
 
 .btn-sm {
@@ -13,6 +18,12 @@
   padding: 0;
   font-size: 12px;
   border-radius: $border-radius-sm;
+  @media (max-width: map-get($grid-breakpoints, xxxl)) {
+    width: 36px;
+    height: 36px;
+    font-size: 10px;
+    border-radius: $border-radius-sm-xxl;
+  }
 }
 
 .btn-icon.btn-plain {

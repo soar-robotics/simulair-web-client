@@ -2,6 +2,24 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 $font-family-sans-serif: "Roboto", sans-serif;
 
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
+        xxl: 1400px,
+        xxxl: 1660px,
+);
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 1140px,
+        xxl: 1320px,
+        xxxl: 1560px,
+);
+
 $font-weight-ultra: 700;
 $font-weight-strong: 500;
 $font-weight-normal: 400;
@@ -38,7 +56,25 @@ $border-radius-sm: 15px;
 
 $btn-border-width: 2px;
 
-$shadow-container: 0px 8px 5.5px rgba(31,29,72,0.27);
-$shadow-main-item: 0px 8px 5.5px rgba(98,90,229,0.06);
-$shadow-main-dropdown: 0px 7px 5.5px rgba(62,56,156,0.24);
-$shadow-main-modal: 0px 8px 5.5px rgba(31,29,72,0.16);
+$shadow-container: 0px 8px 5.5px rgba(31, 29, 72, 0.27);
+$shadow-main-item: 0px 8px 5.5px rgba(98, 90, 229, 0.06);
+$shadow-main-dropdown: 0px 7px 5.5px rgba(62, 56, 156, 0.24);
+$shadow-main-modal: 0px 8px 5.5px rgba(31, 29, 72, 0.16);
+
+/**
+ * Responsive variable values
+ */
+
+$font-size-base-px-xxl: 15px;
+$font-size-title-px-xxl: 17px;
+$font-size-heading-px-xxl: 28px;
+$font-size-menu-px-xxl: 17px;
+$font-size-notification-px-xxl: 16px;
+$font-size-h1-xxl: 26px;
+$font-size-btn-lg-px-xxl: 16px;
+$font-size-btn-md-px-xxl: 14px;
+$font-size-btn-sm-px-xxl: 13px;
+
+$border-radius-lg-xxl: 20px;
+$border-radius-md-xxl: 15px;
+$border-radius-sm-xxl: 12px;

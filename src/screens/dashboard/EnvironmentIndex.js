@@ -123,8 +123,6 @@ class EnvironmentIndex extends Component {
                     {this.renderActionButtons()}
                 </ActionBar>
 
-                <Divider spacing={70}/>
-
                 <div className={`default-product-content ${(this.state.display === 'grid') ? 'grid' : 'list-display'}`}>
                     <div className='default-product-holder'>
                         {(this.state.isFetching) &&

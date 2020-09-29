@@ -1,7 +1,17 @@
 .default-product-content {
-  margin: 0 auto;
+  margin: 70px auto 0 auto;
   width: 100%;
   max-width: 980px;
+
+  @include media-breakpoint-down(xxl) {
+    max-width: unset;
+    padding: 0 50px;
+    margin-top: 55px;
+  }
+
+  @include media-breakpoint-down(xl) {
+    padding: 0 10px;
+  }
 
   .default-product-holder {
     position: relative;
@@ -18,11 +28,27 @@
       margin-bottom: 40px;
       overflow: hidden;
 
+      @include media-breakpoint-down(xxl) {
+        flex: 1 0 25%;
+        margin-right: 40px;
+        &:nth-child(3n) {
+          margin-right: 0;
+        }
+      }
+
+      @include media-breakpoint-down(xl) {
+        flex: 1 0 25%;
+      }
+
       .top {
         overflow: hidden;
         width: 100%;
         height: 200px;
         border-radius: $border-radius-lg;
+
+        @include media-breakpoint-down(xl) {
+          height: 150px;
+        }
 
         img {
           width: 100%;
@@ -35,6 +61,10 @@
         width: 100%;
         padding: 35px 32px;
 
+        @include media-breakpoint-down(xxl) {
+          padding: 30px 25px;
+        }
+
         .heading {
           padding-bottom: 15px;
 
@@ -42,6 +72,9 @@
             font-size: $font-size-title-px;
             color: $font-color-main;
             font-weight: $font-weight-strong;
+            @include media-breakpoint-down(xxl) {
+              font-size: $font-size-title-px-xxl;
+            }
           }
         }
 
@@ -50,6 +83,9 @@
           font-size: $font-size-base-px;
           padding: 0;
           margin: 0;
+          @include media-breakpoint-down(xxl) {
+            font-size: $font-size-base-px-xxl;
+          }
         }
       }
     }
@@ -57,6 +93,11 @@
 
   &.list-display {
     max-width: 800px;
+
+    @include media-breakpoint-down(xxl) {
+      max-width: 720px;
+      padding: 0 20px;
+    }
 
     .default-product-holder {
       .default-product-card {
@@ -66,10 +107,25 @@
         width: 100%;
         margin-bottom: 20px;
 
+        @include media-breakpoint-down(xxl) {
+          flex: unset;
+          margin-right: 0;
+        }
+
+        @include media-breakpoint-down(xl) {
+          flex: unset;
+        }
+
         .top {
           width: 180px;
           height: 180px;
           flex: 0 0 180px;
+
+          @include media-breakpoint-down(xxl) {
+            width: 155px;
+            height: 155px;
+            flex: 0 0 155px;
+          }
         }
 
         .main {
@@ -77,6 +133,13 @@
           width: auto;
           .heading {
             padding-bottom: 20px;
+          }
+
+          @include media-breakpoint-down(xxl) {
+            padding: 22px 35px;
+            .heading {
+              padding-bottom: 18px;
+            }
           }
         }
       }
