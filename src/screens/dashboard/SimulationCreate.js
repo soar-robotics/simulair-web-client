@@ -23,7 +23,7 @@ class SimulationCreate extends Component {
             show: true,
             robots: [],
             environments: [],
-            selectedRobot: null,
+            selectedRobot: "5fa3e4ec232d690ec040c5d5",
             selectedEnvironment: null,
             createInProgress: false,
             apiErrorResponse: null
@@ -93,34 +93,21 @@ class SimulationCreate extends Component {
         this.setState({selectedEnvironment: item});
     }
 
-    handleRobotSelect = (item) => {
-        this.setState({selectedRobot: item});
-    }
+    // handleRobotSelect = (item) => {
+    //     this.setState({selectedRobot: item});
+        
+    // }
 
     renderContent = () => {
         const {selectedEnvironment, selectedRobot} = this.state;
 
         return (
             <Fragment>
-                <div className='selection-grid'>
+                <div style={{justifyContent:"center"}} className='selection-grid'>
+                    
                     <div className='item'>
                         <div className='title'>
-                            <span>Robot</span>
-                        </div>
-                        <div className='img-holder'>
-                            <img src={(selectedRobot) ? selectedRobot.thumbnail : imgPlaceholder} alt=''/>
-                        </div>
-                        <div className='dropdown-holder'>
-                            <ButtonDropdown type='primary' size='sm' items={this.state.robots} textKey='name'
-                                            onItemSelect={this.handleRobotSelect}
-                            >
-                                Select
-                            </ButtonDropdown>
-                        </div>
-                    </div>
-                    <div className='item'>
-                        <div className='title'>
-                            <span>Environment</span>
+                            <span style={{paddingLeft:"45px"}}>Environment</span>
                         </div>
                         <div className='img-holder'>
                             <img src={(selectedEnvironment) ? selectedEnvironment.thumbnail : imgPlaceholder} alt=''/>
@@ -141,7 +128,9 @@ class SimulationCreate extends Component {
                     apiErrorResponse={this.state.apiErrorResponse}
                     onFormSubmit={this.handleFormSubmit}
                 />
+                
             </Fragment>
+
         );
     }
 
