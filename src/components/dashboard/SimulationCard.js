@@ -14,6 +14,7 @@ class SimulationCard extends Component {
         }
     }
 
+
     changeStatus(id, status) {
         this.setState({
             isUpdating: true
@@ -51,6 +52,20 @@ class SimulationCard extends Component {
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
 
+        const renderButton = () => {
+            if(this.props.currentstatus == 'stopped'){
+            return <Button type="primary" size="sm" outline icon='fas fa-minus-circle'
+                          onClick={() => this.changeStatus(id, 'stopped')}>
+                         Delete
+                    </Button>
+            }
+            else {
+                return <Button type="primary" size="sm" outline icon='fas fa-stop'
+                onClick={() => this.changeStatus(id, 'stopped')}>
+            Stop
+        </Button>
+            }
+        }
         return (
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
@@ -88,10 +103,7 @@ class SimulationCard extends Component {
                                             onClick={() => this.changeStatus(id, 'running')}>
                                         Run
                                     </Button>
-                                    <Button type="primary" size="sm" outline icon='fas fa-minus-circle'
-                                            onClick={() => this.changeStatus(id, 'stopped')}>
-                                        Delete
-                                    </Button>
+                                    {renderButton()}
                                     <Button type="primary" size="sm" outline icon='fas fa-eye'>View</Button>
                                 </div>
                             </div>

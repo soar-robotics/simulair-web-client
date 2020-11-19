@@ -19,6 +19,7 @@ class SimulationList extends Component {
     }
 
     render() {
+        const currentstatus = this.props.filters.status;
         return (
             <FlipMove leaveAnimation="elevator">
                 {this.props.simulations.map((simulation) => {
@@ -26,6 +27,7 @@ class SimulationList extends Component {
 
                     return (
                         <SimulationCard onStatusUpdate={this.handleStatusUpdate}
+                                        currentstatus={currentstatus}
                                         onToggleOpen={(id) => this.props.onToggleOpen(id)}
                                         opened={this.props.openedSimulation === simulation.id}
                                         {...{key: id, id, name, status, thumbnail, description}}
