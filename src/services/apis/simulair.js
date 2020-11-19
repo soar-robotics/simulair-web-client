@@ -34,6 +34,7 @@ const refreshAccessToken = (accessToken) => {
         });
 }
 
+/*
 axiosClient.interceptors.request.use((config) => {
     const auth = JSON.parse(localStorage.getItem(authStorageKey));
     if (auth) {
@@ -65,6 +66,9 @@ axiosClient.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+
+*/
+
 
 export {
     authStorageKey,

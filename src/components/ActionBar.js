@@ -39,13 +39,9 @@ class ActionBar extends Component {
     };
 
     handleLogout() {
-        AuthService.postLogout()
-            .then(() => {
-                this.props.history.push("/app");
-            })
-            .catch(() => {
-
-            });
+        AuthService.postLogout();
+        this.props.history.push("/app");
+            
     }
 
     handleMenuItemSelect = (item) => {
@@ -54,6 +50,7 @@ class ActionBar extends Component {
         switch (item.id) {
             case 1:
                 this.setState({userProfileShow: true});
+                AuthService.getMe();
                 break;
             case 2:
                 history.push('/app/simulations');

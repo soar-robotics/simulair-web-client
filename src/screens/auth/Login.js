@@ -38,14 +38,16 @@ class Login extends Component {
 
         const {email, password} = values;
 
-        AuthService.postLogin(email, password).then((response) => {
-            this.props.history.push("/app");
-            toast.success(`Logged in successfully!`);
-        }).catch(error => {
-            if (error.response) {
-                this.setState({apiErrorResponse: error.response});
+        AuthService.postLogin(email, password, (err, result) => {
+            if(err){
+                this.setState({apiErrorResponse: err});
+                console.log(err);
+                this.setState({loginInProgress: false});
+            }else{
+                this.props.history.push("/app");
+                toast.success(`Logged in successfully!`);
+                console.log(result);
             }
-            this.setState({loginInProgress: false});
         });
     }
 

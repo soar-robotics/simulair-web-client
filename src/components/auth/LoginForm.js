@@ -34,17 +34,10 @@ const LoginForm = (props) => {
 
     const renderApiError = () => {
         const error = props.apiErrorResponse;
-        if (error?.status === 401) {
+        if (error?.code === "NotAuthorizedException") {
             return (
                 <Alert variant='danger'>
-                    Wrong email and/or password. Please try again.
-                </Alert>
-            );
-        }
-        if (error?.status === 403) {
-            return (
-                <Alert variant='danger'>
-                    Your email address is not verified.
+                    {error?.message}
                 </Alert>
             );
         }
