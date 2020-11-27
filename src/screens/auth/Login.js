@@ -46,7 +46,6 @@ class Login extends Component {
             }else{
                 this.props.history.push("/app");
                 toast.success(`Logged in successfully!`);
-                console.log(result);
             }
         });
     }

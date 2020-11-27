@@ -50,7 +50,6 @@ class ActionBar extends Component {
         switch (item.id) {
             case 1:
                 this.setState({userProfileShow: true});
-                AuthService.getMe();
                 break;
             case 2:
                 history.push('/app/simulations');

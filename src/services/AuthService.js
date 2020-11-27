@@ -1,5 +1,5 @@
 import axios from "axios";
-import simulair, {authStorageKey, setAuthStorage} from './apis/simulair';
+import simulair from './apis/simulair';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -7,6 +7,7 @@ import {
     CognitoUserSession,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
+import { reject } from "lodash";
 
 class AuthService {
     constructor() {
@@ -14,7 +15,7 @@ class AuthService {
             UserPoolId: "eu-central-1_QXiNhM5ZH",
             ClientId: "1hoon7s3c7egce88jhrcpitomk"
         }
-        
+
         this.userPool = new CognitoUserPool(this.poolData);
     }
     
@@ -71,6 +72,8 @@ class AuthService {
     }
 
     postGoogleLogin(code, scope) {
+
+        /*
         return simulair
             .post(`/auth/oauth/google/callback`, null, {
                 params: {code, scope},
@@ -84,47 +87,53 @@ class AuthService {
 
                 return response.data;
             });
+        */
     }
+
 
     postRegister(values) {
         return simulair
-            .post(`/auth/register`, values, {headers: this.getAuthHeader()})
+            .post(`/auth/register`, values)
             .then(response => {
                 return response.data;
             });
     }
 
     getMe() {
-        return simulair
-            .get("/me", {
-                headers: this.getAuthHeader()
-            })
+        return this.getAuthHeader().then(response => {
+            return simulair
+            .get("/me", {headers : response})
             .then(response => {
-                console.log(response);
-
                 return response.data;
             });
+        })
     }
 
     patchUpdateMe(values) {
-        return simulair
-            .patch(`/me`, values, {headers: this.getAuthHeader()})
+        return this.getAuthHeader().then(response => {
+            console.log(response);
+            return simulair
+            .patch(`/me`, values, {headers: response})
             .then(response => {
                 console.log(response, response.data);
-
                 return response.data;
             });
+        })
+
     }
 
     postUpdateImage(file) {
         const formData = new FormData();
         formData.append('profile_image', file);
 
-        return simulair
+        return this.getAuthHeader().then(response => {
+            console.log(response);
+            return simulair
             .post(`/me/image`, formData, {
                 headers: {
-                    ...this.getAuthHeader(),
-                    'Content-Type': 'multipart/form-data'
+                    ...response,
+                    'Content-Type': 'application/json',
+                    'Accept' : 'application/json'
                 }
             })
             .then(response => {
@@ -132,23 +141,28 @@ class AuthService {
 
                 return response.data;
             });
+        })
+
     }
 
     getCurrentUser() {
         return this.userPool.getCurrentUser();
     }
 
-    getAuthHeader() {
+
+    getAuthHeader(){
+        return new Promise((resolve, reject) => {
         let currentUser = this.getCurrentUser();
         if(currentUser){
             currentUser.getSession((err, session) => {
-                if(err){
-                    return;
-                }else{
-                    return {'Authorization' : session.getIdToken().getJwtToken()}
-                }
-            });
-        }
+                    if(err){
+                        reject(new Error(err));
+                    }else{
+                        resolve({"Authorization" : session.getIdToken().getJwtToken()});
+                    }
+                });
+            }
+        });
     }
 }
 

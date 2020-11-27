@@ -21,7 +21,6 @@ class Dashboard extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.props.authUser);
     }
 
     render() {
