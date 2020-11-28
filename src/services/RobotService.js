@@ -9,18 +9,21 @@ class RobotService {
     }
 
     getRobots(search) {
-        return simulair
+        return AuthService.getAuthHeader().then(response => {
+            console.log(response);
+            return simulair
             .get("/robots", {
                 params: {
                     ...(search ? {query: search} : {})
                 },
-                headers: AuthService.getAuthHeader()
+                headers: response
             })
             .then(response => {
                 console.log(response);
 
                 return response.data;
             });
+        });
     }
 }
 

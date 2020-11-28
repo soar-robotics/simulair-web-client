@@ -17,39 +17,46 @@ class SimulationService {
     // }
 
     getSimulations(status, search) {
-        return simulair
+        return AuthService.getAuthHeader().then(response => {
+            return simulair
             .get("/simulations", {
                 params: {
                     ...(status ? {status} : {}),
                     ...(search ? {query: search} : {})
                 },
-                headers: AuthService.getAuthHeader()
+                headers: response
             })
             .then(response => {
                 console.log(response);
 
                 return response.data;
             });
+        });
+
     }
 
     patchSimulationStatus(id, status) {
-        return simulair
-            .patch(`/simulations/${id}/${status}`, {}, {headers: AuthService.getAuthHeader()})
+        return AuthService.getAuthHeader().then(response => {
+            return simulair
+            .patch(`/simulations/${id}/${status}`, {}, {headers: response})
             .then(response => {
                 console.log(response, response.data);
 
                 return response.data;
             });
+        });
     }
 
     postCreate(values) {
-        return simulair
-            .post(`/simulations`, values, {headers: AuthService.getAuthHeader()})
+        return AuthService.getAuthHeader().then(response => {
+            return simulair
+            .post(`/simulations`, values, {headers: response})
             .then(response => {
                 console.log(response, response.data);
 
                 return response.data;
             });
+        });
     }
 }
 

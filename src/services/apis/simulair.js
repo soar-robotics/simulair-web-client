@@ -9,14 +9,18 @@ const axiosClient = axios.create({
     baseURL: baseURL
 });
 
+
+/*
 const setAuthStorage = (authData) => {
     const authStorageObj = {
         access_token: authData.access_token,
         expires_at: authData.expires_at
     };
     localStorage.setItem(authStorageKey, JSON.stringify(authStorageObj));
-}
+}*/
 
+
+/*
 const refreshAccessToken = (accessToken) => {
     // authHeader not needed at the moment, refresh token is enough, leaving it for possible future reasons
     const authHeader = {Authorization: 'Bearer ' + accessToken};
@@ -66,9 +70,10 @@ axiosClient.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+*/
+
+
 export {
-    authStorageKey,
-    baseURL,
-    setAuthStorage
+    baseURL
 };
 export default axiosClient;
