@@ -6,6 +6,7 @@ import Button from "../common/Button";
 import {useForm} from "react-hook-form";
 import styles from "../../screens/auth/LoginRegister.module.scss";
 import TextLoadingIcon from "../common/TextLoadingIcon";
+import ButtonDropdown from "../../components/common/ButtonDropdown";
 
 const SimulationCreateForm = (props) => {
     const {register, handleSubmit, errors, formState} = useForm();
@@ -52,7 +53,7 @@ const SimulationCreateForm = (props) => {
         <Fragment>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input hidden name='robot_id'
-                       value={(selectedRobot) ? selectedRobot.id : ''}
+                       value={(selectedRobot) ? selectedRobot : ''}
                        ref={register(rules.robotId)}
                        readOnly
                 />

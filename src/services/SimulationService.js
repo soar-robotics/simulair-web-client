@@ -8,6 +8,14 @@ class SimulationService {
 
     }
 
+    // deleteSimulation(id) {
+    //     return simulair
+    //         .delete(`/simulations/${id}`, {}, {headers: AuthService.getAuthHeader()})
+    //         .then(response => {
+    //          return response.data;
+    //         });  
+    // }
+
     getSimulations(status, search) {
         return AuthService.getAuthHeader().then(response => {
             return simulair
