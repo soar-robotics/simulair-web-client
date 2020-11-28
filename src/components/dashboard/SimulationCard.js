@@ -5,12 +5,15 @@ import Button from "../common/Button";
 import LoadingBox from "../common/LoadingBox";
 import SimulationService from "../../services/SimulationService";
 import ButtonIcon from "../common/ButtonIcon";
+import OpeningTabService  from "../../services/OpeningTabService";
+
 
 class SimulationCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUpdating: false
+            isUpdating: false,
+            html: ""
         }
     }
 
@@ -29,6 +32,23 @@ class SimulationCard extends Component {
                 });
             });
     }
+
+        renderHtmlPage = () => {
+            var win = window.open("", "Title", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=");
+
+            OpeningTabService.getHtmlPage()
+                             .then((response) => {
+                                 console.log(response);
+                                 this.setState({
+                                     html:response
+                                 })
+                             })
+                              .finally(() => win.document.body.innerHTML = this.state.html)
+                             ;
+            
+            
+            
+        }
 
     //  deleteSimulation(id){
     //     this.setState({
@@ -104,7 +124,9 @@ class SimulationCard extends Component {
                                         Run
                                     </Button>
                                     {renderButton()}
-                                    <Button type="primary" size="sm" outline icon='fas fa-eye'>View</Button>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {this.renderHtmlPage}>
+                                        
+                                        View</Button>
                                 </div>
                             </div>
                         </div>
