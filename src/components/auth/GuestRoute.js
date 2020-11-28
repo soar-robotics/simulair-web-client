@@ -3,7 +3,6 @@ import AuthService from "../../services/AuthService";
 import {Route, Redirect} from "react-router-dom";
 
 const GuestRoute = ({ component: Component, ...rest }) => {
-    console.log(rest);
 
     const isUserLoggedIn = () => {
         if (AuthService.getCurrentUser()) {

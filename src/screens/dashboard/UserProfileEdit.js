@@ -12,6 +12,7 @@ import {fetchAuthUser} from "../../store/actions";
 import LoginForm from "../../components/auth/LoginForm";
 import AuthService from "../../services/AuthService";
 import {toast} from "react-toastify";
+import { GenericForm } from 'redux-form';
 
 class UserProfileEdit extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class UserProfileEdit extends Component {
         }
 
         this.imageInputRef = React.createRef();
+        this.uploadedImageBase64 = null;
     }
 
     closeModal = () => {
@@ -57,6 +59,26 @@ class UserProfileEdit extends Component {
         });
     }
 
+    handleReaderLoaded = (e) => {
+        let binaryString = e.target.result;
+        this.uploadedImageBase64 = btoa(binaryString);
+    }
+
+    getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+            if ((encoded.length % 4) > 0) {
+              encoded += '='.repeat(4 - (encoded.length % 4));
+            }
+            resolve(encoded);
+          };
+          reader.onerror = error => reject(error);
+        });
+      }
+
     showFilePicker = () => {
         this.imageInputRef.current.click();
     }
@@ -64,16 +86,21 @@ class UserProfileEdit extends Component {
     handleFileSelect = (e) => {
         const file = e.target.files[0];
 
-        this.setState({updateInProgress: true});
-
-        AuthService.postUpdateImage(file).then(response => {
-            this.props.updateUserImage(response.data.profile_image);
-            toast.success(`Profile image updated.`);
-        }).catch(error => {
-           console.log(error);
-        }).finally(() => {
-            this.setState({updateInProgress: false});
-        });
+        if(file){
+            this.getBase64(file)
+            .then(encoded => {
+                this.setState({updateInProgress: true});
+                return AuthService.postUpdateImage(encoded).then(response => {
+                    console.log(response);
+                    this.props.updateUserImage(response.data.profile_image);
+                    toast.success(`Profile image updated.`);
+                });
+            }).catch(error => {
+                console.log(error);
+             }).finally(() => {
+                 this.setState({updateInProgress: false});
+             });
+        }
     }
 
     renderContent = () => {

@@ -39,13 +39,9 @@ class ActionBar extends Component {
     };
 
     handleLogout() {
-        AuthService.postLogout()
-            .then(() => {
-                this.props.history.push("/app");
-            })
-            .catch(() => {
-
-            });
+        AuthService.postLogout();
+        this.props.history.push("/app");
+            
     }
 
     handleMenuItemSelect = (item) => {

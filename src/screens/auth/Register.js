@@ -26,7 +26,7 @@ class Register extends Component {
         AuthService.postRegister(values).then((response) => {
             this.props.history.push("/login");
             toast.info(`Verification email has been sent. Please verify your email address.`);
-            console.log(response);
+            
         }).catch(error => {
             console.log(error);
             if (error.response) {

@@ -2,10 +2,11 @@ import AuthService from "../../services/AuthService";
 import {authTypes} from './types';
 
 export const fetchAuthUser = () => async (dispatch) => {
+    
     AuthService.getMe()
         .then((response) => {
             dispatch({type: authTypes.FETCH_AUTH_USER, payload: response.data});
-        });
+        }); 
 };
 
 export const updateUser = (user) => {
