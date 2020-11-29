@@ -89,7 +89,9 @@ class SimulationCard extends Component {
         return (
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
-                    {(this.state.isUpdating) &&
+            
+                    {
+                    (this.state.isUpdating || status !== 'running') &&
                     <LoadingBox hasBackdrop/>
                     }
                     <div className='top' onClick={this.toggleOpen}>

@@ -84,9 +84,9 @@ class SimulationCreate extends Component {
                 console.log(error.response);
                 this.setState({apiErrorResponse: error.response});
             }
-        }).finally(() => {
-            this.setState({createInProgress: false});
-        });
+         }).finally(() => {
+             this.setState({createInProgress: false});
+         });
     }
 
     handleEnvironmentSelect = (item) => {
