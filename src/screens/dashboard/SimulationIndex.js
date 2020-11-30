@@ -35,7 +35,12 @@ class SimulationIndex extends Component {
 
     componentDidMount() {
         this.getSimulations();
-    }
+        this.interval = setInterval(() => {
+            this.getSimsInterval();
+        }, 3000);
+        }
+
+        
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {status, search} = this.getFiltersFromQueryString();
@@ -76,6 +81,18 @@ class SimulationIndex extends Component {
                 });
             });
     }
+
+        getSimsInterval(){
+            const {status, search} = this.state.filters;
+            SimulationService.getSimulations(status, search)
+            .then((response) => {
+                this.setState({
+                    simulations: response.data
+                });
+            console.log(response.data)
+            }).catch(err => {console.log(err)});
+
+        }
 
     getFiltersFromQueryString() {
         const filters = queryString.parse(this.props.location.search);
