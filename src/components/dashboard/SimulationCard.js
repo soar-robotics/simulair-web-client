@@ -5,12 +5,15 @@ import Button from "../common/Button";
 import LoadingBox from "../common/LoadingBox";
 import SimulationService from "../../services/SimulationService";
 import ButtonIcon from "../common/ButtonIcon";
+import OpeningTabService  from "../../services/OpeningTabService";
+
 
 class SimulationCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUpdating: false
+            isUpdating: false,
+            html: ""
         }
     }
 
@@ -29,6 +32,23 @@ class SimulationCard extends Component {
                 });
             });
     }
+
+        renderHtmlPage = () => {
+            var win = window.open("", "Title", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=");
+
+            OpeningTabService.getHtmlPage(this.props.id)
+                             .then((response) => {
+                                 console.log(response.htmlPage);
+                                 this.setState({
+                                     html:response.htmlPage
+                                 })
+                             })
+                              .finally(() => win.document.body.innerHTML = '<p>'+this.state.html+'</p>');
+                
+    }
+
+        
+
 
     //  deleteSimulation(id){
     //     this.setState({
@@ -69,7 +89,9 @@ class SimulationCard extends Component {
         return (
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
-                    {(this.state.isUpdating) &&
+            
+                    {
+                    (this.state.isUpdating || status !== 'running') &&
                     <LoadingBox hasBackdrop/>
                     }
                     <div className='top' onClick={this.toggleOpen}>
@@ -104,7 +126,9 @@ class SimulationCard extends Component {
                                         Run
                                     </Button>
                                     {renderButton()}
-                                    <Button type="primary" size="sm" outline icon='fas fa-eye'>View</Button>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {this.renderHtmlPage}>
+                                        
+                                        View</Button>
                                 </div>
                             </div>
                         </div>
