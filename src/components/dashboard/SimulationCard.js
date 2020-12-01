@@ -36,19 +36,19 @@ class SimulationCard extends Component {
         renderHtmlPage = () => {
             var win = window.open("", "Title", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=");
 
-            OpeningTabService.getHtmlPage()
+            OpeningTabService.getHtmlPage(this.props.id)
                              .then((response) => {
-                                 console.log(response);
+                                 console.log(response.htmlPage);
                                  this.setState({
-                                     html:response
+                                     html:response.htmlPage
                                  })
                              })
-                              .finally(() => win.document.body.innerHTML = this.state.html)
-                             ;
-            
-            
-            
-        }
+                              .finally(() => win.document.body.innerHTML = '<p>'+this.state.html+'</p>');
+                
+    }
+
+        
+
 
     //  deleteSimulation(id){
     //     this.setState({

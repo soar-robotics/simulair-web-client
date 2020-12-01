@@ -1,21 +1,27 @@
 import axios from 'axios';
 import deneme from './apis/deneme';
+import AuthService from './AuthService'
 
 class OpeningTabService {
     constructor(){
 
     }
 
-     getHtmlPage(){
-             return deneme
-                    .get("/")
+     getHtmlPage(sim_id){
+        return AuthService.getAuthHeader().then(response => {
+            return deneme
+                    .post("/view" , {'sim_id': sim_id }, {headers : response })
                     .then((result) => {
-                        
-                        return result.data
-            })
+                        console.log(result.data)
+                    return result.data
+    })
+        })
+             
     
     }
 
+
+   
 
 }
 
