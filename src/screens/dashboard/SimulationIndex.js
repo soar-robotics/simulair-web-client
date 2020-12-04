@@ -84,13 +84,21 @@ class SimulationIndex extends Component {
 
         getSimsInterval(){
             const {status, search} = this.state.filters;
-            SimulationService.getSimulations(status, search)
-            .then((response) => {
-                this.setState({
-                    simulations: response.data
-                });
-            console.log(response.data)
-            }).catch(err => {console.log(err)});
+
+            this.state.simulations.map((item) => {
+                if(item.status === 'pending1' || item.status === 'pending2' || item.status === 'pending3'){
+                         
+                SimulationService.getSimulations(status, search)
+                .then((response) => {
+                    this.setState({
+                        simulations: response.data
+                    });
+                console.log(response.data)
+                }).catch(err => {console.log(err)});
+                }
+            });
+            
+           
 
         }
 

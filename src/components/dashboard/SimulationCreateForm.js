@@ -33,13 +33,13 @@ const SimulationCreateForm = (props) => {
 
     const renderApiError = () => {
         const error = props.apiErrorResponse;
-        if (error?.status === 422) {
+        if (error?.status === 404) {
             return (
                 <Alert variant='danger'>
                     <ul>
                         {Object.entries(error.data.errors).map((error, index) => {
                             return (
-                                <li key={index}>{error[1]}</li>
+                                <li key={index}>{error[1].message}</li>
                             )
                         })}
                     </ul>

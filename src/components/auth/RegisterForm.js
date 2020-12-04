@@ -55,7 +55,7 @@ const RegisterForm = (props) => {
     // TODO: extract client-side validation errors (inline) to reusable component
     const renderApiError = () => {
         const error = props.apiErrorResponse;
-        if (error?.status === 400) {
+        if (error?.status === 409) {
             return (
                 <Alert variant='danger'>
                     <ul>
