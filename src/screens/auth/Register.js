@@ -28,7 +28,7 @@ class Register extends Component {
             toast.info(`Verification email has been sent. Please verify your email address.`);
             
         }).catch(error => {
-            console.log(error);
+            console.log(error.response);
             if (error.response) {
                 this.setState({apiErrorResponse: error.response});
             }
