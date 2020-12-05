@@ -34,7 +34,6 @@ class SimulationService {
         });
 
     }
-
     patchSimulationStatus(id, status) {
         return AuthService.getAuthHeader().then(response => {
             return simulair
@@ -52,8 +51,6 @@ class SimulationService {
             return simulair
             .post(`/simulations`, values, {headers: response})
             .then(response => {
-                console.log(response, response.data);
-
                 return response.data;
             });
         });
