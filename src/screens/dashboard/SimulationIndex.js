@@ -12,6 +12,9 @@ import LoadingBox from "../../components/common/LoadingBox";
 import SimulationList from "../../components/dashboard/SimulationList";
 import Button from "../../components/common/Button";
 import UserProfileEdit from "./UserProfileEdit";
+import io from 'socket.io-client';
+
+
 
 class SimulationIndex extends Component {
     constructor(props) {
@@ -29,10 +32,12 @@ class SimulationIndex extends Component {
                 status: status || 'running',
                 search: search || ''
             },
-            showSimulationCreate: false
+            showSimulationCreate: false,
+            showSimulationRender: false
         }
     }
 
+    
     componentDidMount() {
         this.getSimulations();
         this.interval = setInterval(() => {
@@ -40,7 +45,13 @@ class SimulationIndex extends Component {
         }, 3000);
         }
 
-        
+        // trial() {
+        //     const socket = io('http://localhost:3003');
+
+        //     socket.on("OnReceiveData", (data) => {
+        //         console.log(data);
+        //     })
+        // }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {status, search} = this.getFiltersFromQueryString();
@@ -93,7 +104,7 @@ class SimulationIndex extends Component {
                     this.setState({
                         simulations: response.data
                     });
-                console.log(response.data)
+                    console.log(response.data)
                 }).catch(err => {console.log(err)});
                 }
             });
@@ -211,6 +222,7 @@ class SimulationIndex extends Component {
                 </div>
 
                 {(this.state.showSimulationCreate) ? this.showSimulationCreate() : null}
+                
             </Fragment>
         );
     }

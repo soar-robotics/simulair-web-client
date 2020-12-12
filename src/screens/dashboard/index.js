@@ -5,6 +5,7 @@ import {fetchAuthUser} from "../../store/actions";
 import SimulationIndex from "./SimulationIndex";
 import EnvironmentIndex from "./EnvironmentIndex";
 import RobotIndex from "./RobotIndex";
+import SimulationRender from "./SimulationRender";
 import Sidebar from "../../components/dashboard/Sidebar";
 import AuthService from "../../services/AuthService";
 import SimulationService from "../../services/SimulationService";
@@ -28,6 +29,7 @@ class Dashboard extends Component {
 
         return (
             <div className='dashboard-container'>
+                
                 <Sidebar {...this.props} />
 
                 <div className='dashboard-content'>
@@ -36,6 +38,7 @@ class Dashboard extends Component {
                             <Route path={`${path}/simulations`} component={SimulationIndex}/>
                             <Route path={`${path}/environments`} component={EnvironmentIndex}/>
                             <Route path={`${path}/robots`} component={RobotIndex}/>
+                            <Route path={`${path}/simulationrender`} component={SimulationRender}/>
                             <Redirect from={path} to={`${path}/simulations`}/>
                         </Switch>
                     </div>
