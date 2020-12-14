@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Collapse} from "react-bootstrap";
 import simulationImg from 'assets/img/simulation_placeholder.png';
 import Button from "../common/Button";
@@ -6,7 +6,8 @@ import LoadingBox from "../common/LoadingBox";
 import SimulationService from "../../services/SimulationService";
 import ButtonIcon from "../common/ButtonIcon";
 import OpeningTabService  from "../../services/OpeningTabService";
-
+import { zipObject } from 'lodash';
+import SimulationRender from '../../screens/dashboard/SimulationRender';
 
 class SimulationCard extends Component {
     constructor(props) {
@@ -33,21 +34,25 @@ class SimulationCard extends Component {
             });
     }
 
-        renderHtmlPage = () => {
-            var win = window.open("", "Title", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=");
+    //     renderHtmlPage = () => {
+    //         var win = window.open("", "Title", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=");
 
-            OpeningTabService.getHtmlPage(this.props.id)
-                             .then((response) => {
-                                 console.log(response.htmlPage);
-                                 this.setState({
-                                     html:response.htmlPage
-                                 })
-                             })
-                              .finally(() => win.document.body.innerHTML = '<p>'+this.state.html+'</p>');
+    //         OpeningTabService.getHtmlPage(this.props.id)
+    //                          .then((response) => {
+    //                              console.log(response.htmlPage);
+    //                              this.setState({
+    //                                  html:response.htmlPage
+    //                              })
+    //                          })
+    //                           .finally(() => win.document.body.innerHTML = '<p>'+this.state.html+'</p>');
                 
-    }
+    // }
 
         
+        showSimulationRender = () => {
+            return <SimulationRender />;
+        }
+
 
 
     //  deleteSimulation(id){
@@ -68,7 +73,7 @@ class SimulationCard extends Component {
     toggleOpen = () => {
         this.props.onToggleOpen(this.props.id);
     }
-
+ 
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
 
@@ -87,6 +92,7 @@ class SimulationCard extends Component {
             }
         }
         return (
+           <Fragment>
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
             
@@ -104,6 +110,8 @@ class SimulationCard extends Component {
                             </ButtonIcon>
                         </div>
                     </div>
+
+                    
                     <Collapse in={opened}>
                         <div>
                             <div className={`main`}>
@@ -126,7 +134,7 @@ class SimulationCard extends Component {
                                         Run
                                     </Button>
                                     {renderButton()}
-                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {this.renderHtmlPage}>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {() => window.open("http://localhost:3000/app/simulationrender", "_blank")}>
                                         
                                         View</Button>
                                 </div>
@@ -134,7 +142,9 @@ class SimulationCard extends Component {
                         </div>
                     </Collapse>
                 </div>
+                
             </div>
+            </Fragment>
         );
     }
 }
