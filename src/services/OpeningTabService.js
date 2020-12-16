@@ -1,5 +1,5 @@
 import axios from 'axios';
-import deneme from './apis/deneme';
+import simulair from './apis/simulair';
 import AuthService from './AuthService'
 
 class OpeningTabService {
@@ -9,17 +9,33 @@ class OpeningTabService {
 
      getHtmlPage(sim_id){
         return AuthService.getAuthHeader().then(response => {
-            return deneme
+            return simulair
                     .post("/view" , {'sim_id': sim_id }, {headers : response })
                     .then((result) => {
                         console.log(result.data)
+                        
                     return result.data
     })
         })
              
     
     }
-
+    getIp(sim) {
+        return AuthService.getAuthHeader().then(response => {
+            return simulair
+                   .get("view",{
+                    params: {
+                        sim_id : sim
+                    },
+                    headers: response
+                })
+                    .then(response =>{
+                        
+                        return response.data;
+                    })
+        })
+    }
+    
 
    
 

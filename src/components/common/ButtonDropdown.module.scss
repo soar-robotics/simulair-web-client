@@ -44,7 +44,7 @@
   position: absolute;
   width: 100%;
   background: $color-bcg-light;
-  border-radius: $border-radius-sm;
+  border-radius: $border-radius-none;
   padding: 60px 12px 15px 12px;
   top: 0;
   box-shadow: $shadow-main-dropdown;
@@ -68,13 +68,13 @@
     .dropdown-item-inner {
       width: 100%;
       padding: 12px;
-      border-radius: $border-radius-sm;
+      border-radius: $border-radius-none;
       font-size: $font-size-btn-sm-px;
       color: $font-color-text;
 
       @include media-breakpoint-down(xxl) {
         font-size: $font-size-btn-sm-px-xxl;
-        border-radius: $border-radius-sm-xxl;
+        border-radius: $border-radius-none;
         padding: 12px;
       }
     }
@@ -114,7 +114,7 @@
       background: $color-bcg-light;
       width: 60px;
       height: 100px;
-      border-radius: $border-radius-sm;
+      border-radius: $border-radius-none;
     }
   }
 

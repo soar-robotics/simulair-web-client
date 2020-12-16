@@ -8,11 +8,11 @@
     font-size: $font-size-btn-lg-px;
     font-weight: $font-weight-strong;
     padding: 21px 80px;
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-none;
 
     @include media-breakpoint-down(xxl) {
         font-size: $font-size-btn-lg-px-xxl;
-        border-radius: $border-radius-lg-xxl;
+        border-radius: $border-radius-none;
         padding: 19px 70px;
     }
 
@@ -20,7 +20,7 @@
         display: inline-block;
         margin-right: 15px;
         padding: 11px 13px;
-        border-radius: $border-radius-sm;
+        border-radius: $border-radius-none;
         background: rgba(#fff, 0.25);
 
         i {
@@ -29,7 +29,7 @@
 
         @include media-breakpoint-down(xxl) {
             padding: 9px 11px;
-            border-radius: $border-radius-sm-xxl;
+            border-radius: $border-radius-none;
             i {
                 font-size: 14px;
             }
@@ -61,12 +61,12 @@
 :global(.btn-sm),
 .btn-sm {
     font-size: $font-size-btn-sm-px;
-    border-radius: $border-radius-sm;
+    border-radius: $border-radius-none;
     padding: 15px 50px;
 
     @include media-breakpoint-down(xxl) {
         font-size: $font-size-btn-sm-px-xxl;
-        border-radius: $border-radius-sm-xxl;
+        border-radius: $border-radius-none;
     }
 
     .icon {
@@ -98,7 +98,7 @@
 
 .btn-md {
     font-size: $font-size-btn-md-px;
-    border-radius: $border-radius-md;
+    border-radius: $border-radius-none;
     padding: 16px 60px;
 }
 

@@ -7,7 +7,7 @@ import SimulationService from "../../services/SimulationService";
 import ButtonIcon from "../common/ButtonIcon";
 import OpeningTabService  from "../../services/OpeningTabService";
 import { zipObject } from 'lodash';
-import SimulationRender from '../../screens/dashboard/SimulationRender';
+//import SimulationWorkshop from '../../screens/dashboard/SimulationWorkshop';
 
 class SimulationCard extends Component {
     constructor(props) {
@@ -16,6 +16,7 @@ class SimulationCard extends Component {
             isUpdating: false,
             html: ""
         }
+
     }
 
 
@@ -48,11 +49,6 @@ class SimulationCard extends Component {
                 
     // }
 
-        
-        showSimulationRender = () => {
-            return <SimulationRender />;
-        }
-
 
 
     //  deleteSimulation(id){
@@ -76,7 +72,9 @@ class SimulationCard extends Component {
  
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
-
+        //const {path} = this.props.match;
+        const path = window.location.origin;
+        
         const renderButton = () => {
             if(this.props.currentstatus == 'stopped'){
             return <Button type="primary" size="sm" outline icon='fas fa-minus-circle'
@@ -92,7 +90,7 @@ class SimulationCard extends Component {
             }
         }
         return (
-           <Fragment>
+            
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
             
@@ -134,7 +132,7 @@ class SimulationCard extends Component {
                                         Run
                                     </Button>
                                     {renderButton()}
-                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {() => window.open("http://localhost:3000/app/simulationrender", "_blank")}>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {() => window.open(`${path}/simulationrender?sim=${id}`, "_blank")}>
                                         
                                         View</Button>
                                 </div>
@@ -144,7 +142,6 @@ class SimulationCard extends Component {
                 </div>
                 
             </div>
-            </Fragment>
         );
     }
 }

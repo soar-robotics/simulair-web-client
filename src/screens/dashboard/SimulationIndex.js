@@ -32,8 +32,7 @@ class SimulationIndex extends Component {
                 status: status || 'running',
                 search: search || ''
             },
-            showSimulationCreate: false,
-            showSimulationRender: false
+            showSimulationCreate: false
         }
     }
 

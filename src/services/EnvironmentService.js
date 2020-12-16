@@ -16,7 +16,7 @@ class EnvironmentService {
                 params: {
                     ...(search ? {query: search} : {})
                 },
-                headers: response
+                headers: {response}
             })
             .then(response => {
                 console.log(response);
