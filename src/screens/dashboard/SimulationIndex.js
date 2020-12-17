@@ -96,7 +96,7 @@ class SimulationIndex extends Component {
             const {status, search} = this.state.filters;
 
             this.state.simulations.map((item) => {
-                if(item.status === 'pending1' || item.status === 'pending2' || item.status === 'pending3'){
+                if(item.status === 'pending1' || item.status === 'pending2' || item.status === 'pending3' || item.status === 'pending4'){
                          
                 SimulationService.getSimulations(status, search)
                 .then((response) => {
