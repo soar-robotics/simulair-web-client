@@ -22,7 +22,7 @@
     .default-product-card {
       width: 300px;
       padding: 0;
-      border-radius: $border-radius-lg;
+      border-radius: $border-radius-none;
       background: $color-bcg-light;
       box-shadow: $shadow-main-item;
       margin-bottom: 40px;
@@ -44,7 +44,7 @@
         overflow: hidden;
         width: 100%;
         height: 200px;
-        border-radius: $border-radius-lg;
+        border-radius: $border-radius-none;
 
         @include media-breakpoint-down(xl) {
           height: 150px;

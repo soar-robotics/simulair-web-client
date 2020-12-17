@@ -13,6 +13,7 @@ import GuestRoute from "./auth/GuestRoute";
 import queryString from "query-string";
 import AuthService from "../services/AuthService";
 import Register from "../screens/auth/Register";
+import SimulationWorkshop from '../screens/dashboard/SimulationWorkshop';
 
 const history = createBrowserHistory();
 
@@ -54,6 +55,7 @@ function App(props) {
                     </GuestRoute>
                     <GuestRoute path="/register" exact component={Register}/>
                     <ProtectedRoute path="/app" component={Dashboard}/>
+                    <ProtectedRoute path="/simulationrender" component={SimulationWorkshop}/>
                     <Redirect to={`/login`}/>
                 </Switch>
             </Router>

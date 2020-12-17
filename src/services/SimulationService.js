@@ -15,7 +15,7 @@ class SimulationService {
     //          return response.data;
     //         });  
     // }
-
+    
     getSimulations(status, search) {
         return AuthService.getAuthHeader().then(response => {
             return simulair
@@ -34,6 +34,20 @@ class SimulationService {
         });
 
     }
+
+    patchManagerCommand(id, command) {
+        return AuthService.getAuthHeader().then(response => {
+            return simulair
+            .patch(`/simulations/${id}/${command}`, {}, {headers: response})
+            .then(response => {
+                console.log(response, response.data);
+
+                return response.data;
+            });
+        });
+    }
+
+    //#region might be deprecated soon
     patchSimulationStatus(id, status) {
         return AuthService.getAuthHeader().then(response => {
             return simulair
@@ -44,7 +58,8 @@ class SimulationService {
                 return response.data;
             });
         });
-    }
+    } 
+    //#endregion
 
     postCreate(values) {
         return AuthService.getAuthHeader().then(response => {

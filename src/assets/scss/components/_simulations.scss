@@ -26,7 +26,7 @@
 
       .simulation-card {
         padding: 25px 30px;
-        border-radius: $border-radius-lg;
+        border-radius: $border-radius-none;
         background: $color-bcg-light;
         box-shadow: $shadow-main-item;
         position: relative;
@@ -63,7 +63,7 @@
               width: 140px;
               height: 140px;
               overflow: hidden;
-              border-radius: $border-radius-lg;
+              border-radius: $border-radius-none;
 
               img {
                 width: 100%;
@@ -107,7 +107,7 @@
 
         @include media-breakpoint-down(xxl) {
           padding: 22px 28px;
-          border-radius: $border-radius-lg-xxl;
+          border-radius: $border-radius-none;
 
           .top {
             .heading {

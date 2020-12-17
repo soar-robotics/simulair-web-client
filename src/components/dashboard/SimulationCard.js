@@ -7,7 +7,7 @@ import SimulationService from "../../services/SimulationService";
 import ButtonIcon from "../common/ButtonIcon";
 import OpeningTabService  from "../../services/OpeningTabService";
 import { zipObject } from 'lodash';
-import SimulationRender from '../../screens/dashboard/SimulationRender';
+//import SimulationWorkshop from '../../screens/dashboard/SimulationWorkshop';
 
 class SimulationCard extends Component {
     constructor(props) {
@@ -16,20 +16,22 @@ class SimulationCard extends Component {
             isUpdating: false,
             html: ""
         }
+
     }
 
 
-    changeStatus(id, status) {
+    sendCommand(id, command) {
         this.setState({
             isUpdating: true
         });
-        SimulationService.patchSimulationStatus(id, status)
+        SimulationService.patchManagerCommand(id, command)
             .then((response) => {
-                this.props.onStatusUpdate(id, status);
+                console.log(response);
+                this.props.onStatusUpdate(id, response.data.status); //retrieve the new status from the response object 
             })
             .finally(() => {
                 this.setState({
-                    isUpdating: false
+                    isUpdating: false 
                 });
             });
     }
@@ -47,11 +49,6 @@ class SimulationCard extends Component {
     //                           .finally(() => win.document.body.innerHTML = '<p>'+this.state.html+'</p>');
                 
     // }
-
-        
-        showSimulationRender = () => {
-            return <SimulationRender />;
-        }
 
 
 
@@ -76,28 +73,30 @@ class SimulationCard extends Component {
  
     render() {
         const {id, name, status, thumbnail, description, opened} = this.props;
-
+        //const {path} = this.props.match;
+        const path = window.location.origin;
+        
         const renderButton = () => {
             if(this.props.currentstatus == 'stopped'){
             return <Button type="primary" size="sm" outline icon='fas fa-minus-circle'
-                          onClick={() => this.changeStatus(id, 'stopped')}>
+                          onClick={() => this.sendCommand(id, 'terminate')}>
                          Delete
                     </Button>
             }
             else {
                 return <Button type="primary" size="sm" outline icon='fas fa-stop'
-                onClick={() => this.changeStatus(id, 'stopped')}>
+                onClick={() => this.sendCommand(id, 'stop')}>
             Stop
         </Button>
             }
         }
         return (
-           <Fragment>
+            
             <div className='simulation-card-holder'>
                 <div className='simulation-card'>
             
                     {
-                    (this.state.isUpdating || (status === 'pending1' || status === 'pending2' || status === 'pending3') ) &&
+                    (this.state.isUpdating || (status === 'pending1' || status === 'pending2' || status === 'pending3' || status === 'pending4') ) &&
                     <LoadingBox hasBackdrop/>
                     }
                     <div className='top' onClick={this.toggleOpen}>
@@ -130,11 +129,11 @@ class SimulationCard extends Component {
                                 </div>
                                 <div className='right'>
                                     <Button type="primary" size="sm" icon='fas fa-play'
-                                            onClick={() => this.changeStatus(id, 'running')}>
+                                            onClick={() => this.sendCommand(id, 'run')}>
                                         Run
                                     </Button>
                                     {renderButton()}
-                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {() => window.open("http://localhost:3000/app/simulationrender", "_blank")}>
+                                    <Button type="primary" size="sm" outline icon='fas fa-eye' onClick= {() => window.open(`${path}/simulationrender?sim=${id}`, "_blank")}>
                                         
                                         View</Button>
                                 </div>
@@ -144,9 +143,9 @@ class SimulationCard extends Component {
                 </div>
                 
             </div>
-            </Fragment>
         );
     }
 }
 
+//TODO new view tab is directed to localhost all the time, it should be directed to
 export default SimulationCard;

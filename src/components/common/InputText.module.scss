@@ -7,7 +7,7 @@
     font-size: $font-size-base-px;
     //margin-top: 10px;
     padding: 19px 25px;
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-none;
     background: $color-bcg-light;
     color: $font-color-text;
 
@@ -17,7 +17,7 @@
 
     @media (max-width: map-get($grid-breakpoints, xxxl)) {
       font-size: $font-size-base-px-xxl;
-      border-radius: $border-radius-lg-xxl;
+      border-radius: $border-radius-none;
       padding: 16px 22px;
     }
   }
