@@ -19,17 +19,18 @@ class SimulationCard extends Component {
     }
 
 
-    changeStatus(id, status) {
+    sendCommand(id, command) {
         this.setState({
             isUpdating: true
         });
-        SimulationService.patchSimulationStatus(id, status)
+        SimulationService.patchManagerCommand(id, command)
             .then((response) => {
-                this.props.onStatusUpdate(id, status);
+                console.log(response);
+                this.props.onStatusUpdate(id, response.data.status); //retrieve the new status from the response object 
             })
             .finally(() => {
                 this.setState({
-                    isUpdating: false
+                    isUpdating: false 
                 });
             });
     }
@@ -80,13 +81,13 @@ class SimulationCard extends Component {
         const renderButton = () => {
             if(this.props.currentstatus == 'stopped'){
             return <Button type="primary" size="sm" outline icon='fas fa-minus-circle'
-                          onClick={() => this.changeStatus(id, 'stopped')}>
+                          onClick={() => this.sendCommand(id, 'terminate')}>
                          Delete
                     </Button>
             }
             else {
                 return <Button type="primary" size="sm" outline icon='fas fa-stop'
-                onClick={() => this.changeStatus(id, 'stopped')}>
+                onClick={() => this.sendCommand(id, 'stop')}>
             Stop
         </Button>
             }
@@ -97,7 +98,7 @@ class SimulationCard extends Component {
                 <div className='simulation-card'>
             
                     {
-                    (this.state.isUpdating || (status === 'pending1' || status === 'pending2' || status === 'pending3') ) &&
+                    (this.state.isUpdating || (status === 'pending1' || status === 'pending2' || status === 'pending3' || status === 'pending4') ) &&
                     <LoadingBox hasBackdrop/>
                     }
                     <div className='top' onClick={this.toggleOpen}>
@@ -130,7 +131,7 @@ class SimulationCard extends Component {
                                 </div>
                                 <div className='right'>
                                     <Button type="primary" size="sm" icon='fas fa-play'
-                                            onClick={() => this.changeStatus(id, 'running')}>
+                                            onClick={() => this.sendCommand(id, 'run')}>
                                         Run
                                     </Button>
                                     {renderButton()}
@@ -149,4 +150,5 @@ class SimulationCard extends Component {
     }
 }
 
+//TODO new view tab is directed to localhost all the time, it should be directed to
 export default SimulationCard;
