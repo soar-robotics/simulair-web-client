@@ -4,7 +4,7 @@ import Zlib from 'zlib';
 import {SIMULAIR_API} from '../../config/app';
 
 class SimulationImage extends Component{
-    didFunctionBind = false;
+    didSocketUpdate = false;
     constructor(props) {
         super(props);
 
@@ -40,7 +40,9 @@ class SimulationImage extends Component{
     }
 
     componentDidMount() {
-        
+        if(this.didSocketUpdate !== this.props.socketUpdate && this.props.socketUpdate === true){ //didSocketUpdate controls if the workshop has just called by the dashboard
+            this.didSocketUpdate = true;
+        }
     }
 
     renderImage = () => {
@@ -202,10 +204,17 @@ class SimulationImage extends Component{
 
      render() {
          // If we change the socket connection or try to reconnect it will not work because we are only switching didFunctionBind variable once
+        if(this.props.socket !== null && this.didSocketUpdate){
+            this.renderImage();
+            console.log("socket is receieved");
+            console.log(this.props.socket);
+            this.didSocketUpdate = false; //the socket has been updated by the workshop
+        }
+         /*
         if(this.props.socket !== null && this.didFunctionBind == false) {
            this.renderImage();
            this.didFunctionBind = true;
-        }
+        }*/
         return(
             <div className="Imgrender">
                     <img id="DisplayImg" src=""/>

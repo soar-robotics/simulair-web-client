@@ -40,7 +40,7 @@ class SimulationService {
             return simulair
             .patch(`/simulations/${id}/${command}`, {}, {headers: response})
             .then(response => {
-                console.log(response, response.data);
+                console.log(response);
 
                 return response.data;
             });
