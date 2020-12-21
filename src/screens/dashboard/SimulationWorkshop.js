@@ -65,7 +65,7 @@ class SimulationWorkshop extends Component {
                          //${this.state.control_api_dns_address}
                          .then(() => {
                              
-                            this.setState({socket : this.ConnectSocketIO(`http://52.59.235.173:3003`)}); 
+                            this.setState({socket : this.ConnectSocketIO(`http://${this.state.control_api_dns_address}:3003`)}); 
                             console.log(this.state.socket);
                             console.log("socket is created");
                         });
