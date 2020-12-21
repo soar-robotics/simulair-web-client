@@ -56,18 +56,18 @@ class SimulationImage extends Component{
 
                 if (_label == this.state.label_img) {
                     var _dataID = ByteToInt32(_byteData, 4);
-                    if (_dataID != this.state.dataID_img) this.setState({receivedLength_img : 0});
-                    this.setState({dataID_img : _dataID})
+                    if (_dataID != this.state.dataID_img) this.state.receivedLength_img = 0;
+                    this.state.dataID_img = _dataID
 
-                    this.setState({dataLength_img : ByteToInt32(_byteData, 8)});
+                    this.state.dataLength_img = ByteToInt32(_byteData, 8);
                     //var _offset = ByteToInt32(_byteData, 12);
                     var _GZipMode = (_byteData[16] == 1) ? true : false;
 
-                    if (this.state.receivedLength_img == 0) this.setState({dataByte_img : new Uint8Array(0)});
-                    this.setState({receivedLength_img : this.state.receivedLength_img +_byteData.length - 17}); //BURAYA DİKKAT
+                    if (this.state.receivedLength_img == 0) this.state.dataByte_img = new Uint8Array(0);
+                    this.state.receivedLength_img = this.state.receivedLength_img +_byteData.length - 17; //BURAYA DİKKAT
 
                     //----------------add byte----------------
-                    this.setState({dataByte_img : CombineInt8Array(this.state.dataByte_img, _byteData.slice(17, _byteData.length))});
+                    this.state.dataByte_img = CombineInt8Array(this.state.dataByte_img, _byteData.slice(17, _byteData.length));
                     //----------------add byte----------------
 
                     if (this.state.ReadyToGetFrame_img)
@@ -79,17 +79,17 @@ class SimulationImage extends Component{
                 if (_label == this.state.label_aud)
                 {
                     var _dataID = ByteToInt32(_byteData, 4);
-                    if (_dataID != this.state.dataID_aud) this.setState({receivedLength_aud : 0});
+                    if (_dataID != this.state.dataID_aud) this.state.receivedLength_aud = 0;
 
-                    this.setState({dataID_aud : _dataID});
-                    this.setState({dataLength_aud : ByteToInt32(_byteData, 8)});
+                    this.state.dataID_aud = _dataID;
+                    this.state.dataLength_aud = ByteToInt32(_byteData, 8);
                     //var _offset = ByteToInt32(_byteData, 12);
                     var _GZipMode = (_byteData[16] == 1) ? true : false;
 
-                    if (this.state.receivedLength_aud == 0) this.setState({dataByte_aud : new Uint8Array(0)});
-                    this.setState({receivedLength_aud : this.state.receivedLength_aud +_byteData.length - 17});
+                    if (this.state.receivedLength_aud == 0) this.state.dataByte_aud = new Uint8Array(0);
+                    this.state.receivedLength_aud = this.state.receivedLength_aud +_byteData.length - 17;
                     //----------------add byte----------------
-                    this.setState({dataByte_aud : CombineInt8Array(this.state.dataByte_aud, _byteData.slice(17, _byteData.length))});
+                    this.state.dataByte_aud = CombineInt8Array(this.state.dataByte_aud, _byteData.slice(17, _byteData.length));
                     //----------------add byte----------------
                     if (this.state.ReadyToGetFrame_aud)
                     {
@@ -102,22 +102,22 @@ class SimulationImage extends Component{
             var audioCtx = new AudioContext();
 
            const ProcessAudioData = (_byte, _GZipMode) => {
-            this.setState({ReadyToGetFrame_aud : false});
+            this.state.ReadyToGetFrame_aud = false;
                 var bytes = new Uint8Array(_byte);
                 if(_GZipMode)
                 {
                    var gunzip = new Zlib.Gunzip (bytes);
                    bytes = gunzip.decompress();
                 }
-                this.setState({SourceSampleRate : ByteToInt32(bytes, 0)});
-                this.setState({SourceChannels : ByteToInt32(bytes, 4)});
+                this.state.SourceSampleRate = ByteToInt32(bytes, 0);
+                this.state.SourceChannels = ByteToInt32(bytes, 4);
 
                 var BufferData = bytes.slice(8, bytes.length);
                 var AudioFloat = new Float32Array(BufferData.buffer);
 
                 if(AudioFloat.length > 0) StreamAudio(this.state.SourceChannels, AudioFloat.length, this.state.SourceSampleRate, AudioFloat);
 
-                this.setState({ReadyToGetFrame_aud : true});
+                this.state.ReadyToGetFrame_aud = true;
             }
 
              const StreamAudio = (NUM_CHANNELS, NUM_SAMPLES, SAMPLE_RATE, AUDIO_CHUNKS) => {
@@ -148,7 +148,7 @@ class SimulationImage extends Component{
              const ProcessImageData = (_byte, _GZipMode) => {
                 
                 
-                this.setState({ReadyToGetFrame_img : false});
+                this.state.ReadyToGetFrame_img = false;
 
                 var binary = '';
 
@@ -174,7 +174,7 @@ class SimulationImage extends Component{
                 //img.height = data.Height;
                 //----display image----
 
-                this.setState({ReadyToGetFrame_img : true});
+                this.state.ReadyToGetFrame_img = true;
             }
 
 
