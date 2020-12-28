@@ -4,7 +4,8 @@ import Zlib from 'zlib';
 import {SIMULAIR_API} from '../../config/app';
 import queryString from 'query-string';
 import OpeningTabService from '../../services/OpeningTabService';
-import SimulationImage from '../../components/dashboard/SimulationImage';
+import SimulationImage from '../../components/workbench/SimulationImage';
+import Table from "../../components/workbench/Table";
 
 class SimulationWorkshop extends Component {
     constructor(props) {
@@ -278,9 +279,10 @@ class SimulationWorkshop extends Component {
        
         
         return (
-            
+            <div>
             <SimulationImage connection={this.getControlIp} socket={this.state.socket} socketUpdate={true}/>
-            
+            <Table/>
+            </div>
         )
     }
 
