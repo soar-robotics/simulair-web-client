@@ -5,7 +5,8 @@ import {SIMULAIR_API} from '../../config/app';
 import queryString from 'query-string';
 import OpeningTabService from '../../services/OpeningTabService';
 import SimulationImage from '../../components/workbench/SimulationImage';
-import Table from "../../components/workbench/Table";
+import RobotManager from '../../components/workbench/RobotManager';
+
 
 class SimulationWorkshop extends Component {
     constructor(props) {
@@ -57,7 +58,6 @@ class SimulationWorkshop extends Component {
         
          OpeningTabService.getIp(params.sim)
                          .then((result) => {
-
                              this.setState({
                                  control_api_ip_address:result.publicIP,
                                  control_api_dns_address:result.publicDNS
@@ -279,9 +279,9 @@ class SimulationWorkshop extends Component {
        
         
         return (
-            <div>
+            <div className="WorkshopContainer">
             <SimulationImage connection={this.getControlIp} socket={this.state.socket} socketUpdate={true}/>
-            <Table/>
+            <RobotManager />
             </div>
         )
     }

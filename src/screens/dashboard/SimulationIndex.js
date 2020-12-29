@@ -12,7 +12,7 @@ import LoadingBox from "../../components/common/LoadingBox";
 import SimulationList from "../../components/dashboard/SimulationList";
 import Button from "../../components/common/Button";
 import UserProfileEdit from "./UserProfileEdit";
-import io from 'socket.io-client';
+
 
 
 
@@ -80,6 +80,7 @@ class SimulationIndex extends Component {
         });
         SimulationService.getSimulations(status, search)
             .then((response) => {
+                console.log(response.errorMessage);
                 this.setState({
                     simulations: response.data,
                     openedSimulation: (response.data[0]) ? response.data[0].id : null
