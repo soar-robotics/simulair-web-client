@@ -7,20 +7,22 @@ class RobotCard extends Component {
     }
 
     render() {
+        const {index,icon,type,owner} = this.props;
+        console.log("Card"+this.props.index)
         return(
 
             <div className="robot-card-holder">
                 <div className="robot-index">
-                <span>1</span>
+                <span>{index}</span>
                 </div>
                     <div className="robot-icon">
-                <img src="https://www.locopoco.com/ProductImages/120657/big/39989_silverlit-program-a-bot-robot_2.jpg"/>
+                <img src={icon}/>
                     </div>
                         <div className="robot-type">
-                        <span>delivery-bot 1</span>
+                        <span>{type}</span>
                         </div>
-                            <div className="robot-type">
-                            <span>tahameg</span>
+                            <div className="robot-owner">
+                            <span>{owner}</span>
                             </div>
                             
                             <i className="fas fa-edit"/>
