@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import OpeningTabService from '../../services/OpeningTabService';
 import SimulationImage from '../../components/workbench/SimulationImage';
 import RobotManager from '../../components/workbench/RobotManager';
-
+import Credentials      from '../../components/workbench/Credentials'
 
 class SimulationWorkshop extends Component {
     constructor(props) {
@@ -89,9 +89,15 @@ class SimulationWorkshop extends Component {
         
         return (
             <div className="WorkshopContainer">
+            <div className="imageandRobot">
             <SimulationImage connection={this.state.control_api_ip_address} socket={this.state.socket} socketUpdate={true}/>
-            <RobotManager connection={this.state.control_api_ip_address} socket={this.state.socket}/>
+            <Credentials />
             </div>
+            <RobotManager connection={this.state.control_api_ip_address} socket={this.state.socket}/>
+           
+
+            </div>
+           
         )
     }
 

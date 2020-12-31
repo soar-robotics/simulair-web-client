@@ -1,20 +1,24 @@
 //WORKSHOP
-
-.WorkshopContainer {
+.WorkshopContainer{
+    display: flex;
+    flex-direction: row;
+}
+.imageandRobot {
+    overflow: hidden;
     display:flex;
+    flex-direction: column;
 }
 //SIMULATION IMAGE
 #DisplayImg{
     width: 100%;
     height: 100%;
-    
 }
 
 //ROBOTMANAGER
 
 .card{
     width: 50vw;
-    
+
 }
 
 .card-body {
@@ -23,20 +27,14 @@
     
 }
 
-.col {
-    padding:0;
-}
 
-
-
-.robotCard{
+.robotCard {
     padding-left: 0px;
+    
+    .card-body{
     overflow-y: scroll;
     overflow-x: hidden;
-
-   .card-body{
-    overflow-y: scroll;
-    overflow-x: hidden;
+    height: 54.3rem;
     margin:10px 10px 10px 10px;
     border:2px solid black;
     padding:0;
@@ -56,6 +54,7 @@
         justify-content:flex-start;
         border-bottom: solid 2px black;
         margin-bottom: 0;
+        
         }
     
     li{
@@ -108,3 +107,77 @@
         padding-left: 3vw;
         }
 }
+
+
+//CONTROL 
+.credential-container {
+    padding-left: 0px;
+    
+   .card-body{
+    overflow-y: hidden;
+    height: 300px;
+    margin:10px 10px 10px 10px;
+    border:2px solid black;
+    padding:0;
+   }
+}
+
+.credentialTable{
+    padding:0;
+    margin:0;
+
+    ul{
+        height: 4rem;
+        padding-inline-start: 0;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        justify-content:flex-start;
+        border-bottom: solid 2px black;
+        margin-bottom: 0;
+        
+        .plusicon {
+            font-size: 25px;
+            padding-left: 13rem;
+            padding-top: 0.7rem;
+            cursor: pointer;
+        }
+        }
+    
+    li{
+        border-right: 2px solid black;
+        width: 9.4vw;
+        padding: 0.7rem;
+         
+    }
+    .name {
+       width: 50%;
+       text-align: center;
+    }
+    
+    
+}
+
+// CONTROL CARD 
+.credential-card-holder{
+    display: flex;
+    height: 4.87rem;
+    border-bottom: 2px solid black;
+
+        div{
+            border-right: 2px solid black;
+            width: 9.4vw;
+            padding:30px;
+                        
+    }
+        .credential-name{
+            width: 50%;
+            text-align: center;
+        }
+    i {
+        font-size: 25px;
+        padding-top: 1rem;
+        padding-left: 13rem;
+        }
+}
+

@@ -45,10 +45,10 @@ class RobotManager extends Component {
     }
     onRobotSelect = (e) => {
         
-       var indexofRobot = e.target.getAttribute("value");
+       var indexValueofRobot = e.target.getAttribute("value");
 
        var selectedRobot = this.state.userRobots.filter((robots) => {
-            return robots.index == indexofRobot
+            return robots.index == indexValueofRobot
        })[0]
        
 
@@ -110,6 +110,7 @@ class RobotManager extends Component {
                             this.state.simulationRobots.map((robots) => {
                                 console.log(robots)
                               return  <RobotCard 
+                                key= {robots.index}
                                 index={robots.index} 
                                 icon={robots.image} 
                                 type={robots.type}
