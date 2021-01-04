@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 import Zlib from 'zlib';
 import {SIMULAIR_API} from '../../config/app';
+import {
+    CCol,
+    CRow,
+    CCard,
+    CCardHeader,
+    CCardBody,
+} from '@coreui/react';
 
 class SimulationImage extends Component{
     didSocketUpdate = false;
@@ -215,11 +222,25 @@ class SimulationImage extends Component{
            this.renderImage();
            this.didFunctionBind = true;
         }*/
+
         return(
-            <div className="Imgrender">
+            
+                <div className="simCard">
+                    
+                    <CCard>
+                    <CCardHeader>
+                        Simulation View
+                    </CCardHeader>
+                    <CCardBody>
+                        
                     <img id="DisplayImg" src=""/>
-                    <button id="createCred">Create Vpn Credential</button>
+                    </CCardBody>
+                    
+                    </CCard>
                     </div>
+
+                
+           
         )
        
         
