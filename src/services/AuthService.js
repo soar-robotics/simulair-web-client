@@ -8,6 +8,8 @@ import {
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
 import { reject } from "lodash";
+import Amplify, { Auth } from 'aws-amplify';
+
 
 class AuthService {
     constructor() {
@@ -15,7 +17,7 @@ class AuthService {
             UserPoolId: "eu-central-1_QXiNhM5ZH",
             ClientId: "1hoon7s3c7egce88jhrcpitomk"
         }
-
+        this.authConfigure();
         this.userPool = new CognitoUserPool(this.poolData);
     }
     
@@ -161,6 +163,46 @@ class AuthService {
                         resolve({"Authorization" : session.getIdToken().getJwtToken()});
                     }
                 });
+            }
+        });
+    }
+
+    onGoogleSignup(){
+
+      return Auth.federatedSignIn({provider:'Google'});
+    
+       
+    }
+
+    authConfigure = () => {
+        Amplify.configure({
+            Auth: {
+        
+                // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+                //identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+        
+                // REQUIRED - Amazon Cognito Region
+                region: 'eu-central-1',
+        
+                // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
+                // Required only if it's different from Amazon Cognito Region
+                //identityPoolRegion: 'XX-XXXX-X',
+        
+                // OPTIONAL - Amazon Cognito User Pool ID
+                userPoolId: 'eu-central-1_QXiNhM5ZH',
+        
+                // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+                userPoolWebClientId: '1hoon7s3c7egce88jhrcpitomk',
+                
+                
+                oauth: {
+                    domain: 'simulair-user-pool.auth.eu-central-1.amazoncognito.com',
+                    scope: ['profile', 'openid', 'email'],
+                    redirectSignIn: 'http://localhost:3000/',
+                    redirectSignOut: 'http://localhost:3000/',
+                    responseType: 'token' // or 'token', note that REFRESH token will only be generated when the responseType is code
+                }
+                
             }
         });
     }
