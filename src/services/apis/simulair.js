@@ -4,6 +4,7 @@ import {SIMULAIR_API} from "../../config/app";
 
 const baseURL = SIMULAIR_API.BASE_URL;
 const authStorageKey = 'u_data';
+const bucket_id = SIMULAIR_API.S3_BUCKET_ID;
 
 const axiosClient = axios.create({
     baseURL: baseURL
@@ -74,6 +75,6 @@ axiosClient.interceptors.request.use((config) => {
 
 
 export {
-    baseURL
+    baseURL,bucket_id
 };
 export default axiosClient;
