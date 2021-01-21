@@ -1,5 +1,5 @@
 import axios from "axios";
-import simulair from './apis/simulair';
+import simulair,{bucket_id} from './apis/simulair';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -7,7 +7,11 @@ import {
     CognitoUserSession,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
-import { reject } from "lodash";
+
+import { reject, result } from "lodash";
+import Amplify, {Auth,Storage} from 'aws-amplify';
+
+
 
 class AuthService {
     constructor() {
@@ -15,7 +19,7 @@ class AuthService {
             UserPoolId: "eu-central-1_QXiNhM5ZH",
             ClientId: "1hoon7s3c7egce88jhrcpitomk"
         }
-
+        this.authConfigure();
         this.userPool = new CognitoUserPool(this.poolData);
     }
     
@@ -104,6 +108,7 @@ class AuthService {
             return simulair
             .get("/me", {headers : response})
             .then(response => {
+                console.log(response.data);
                 return response.data;
             });
         })
@@ -164,6 +169,92 @@ class AuthService {
             }
         });
     }
+
+
+    getIdentityId = () => {
+
+           return Auth.currentUserInfo();
+
+    }
+
+    onGoogleSignup(){
+
+      return Auth.federatedSignIn({provider:'Google'});
+    
+       
+    }
+    
+    uploadImage = async (file) => {
+        let identityId;
+        await this.SetS3Config("userpic-test","protected");
+        
+        await this.getIdentityId().then(result => {
+            identityId = result.id;
+        })
+        
+        return Storage.put(`${file.name}`,
+                file,
+                {contentType: file.type,
+                 acl: "public-read"
+                })
+                .then(async () => {
+                const user = await Auth.currentAuthenticatedUser();
+                let url = `https://${bucket_id}.s3.eu-central-1.amazonaws.com/protected/${identityId}/${file.name}`;
+                await Auth.updateUserAttributes(user,{
+                    'picture' : url
+                });
+                return url;
+                }).catch(err => {console.log(err)});
+    }
+
+    authConfigure = () => {
+        Amplify.configure({
+            Auth: {
+        
+                // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81',
+        
+                // REQUIRED - Amazon Cognito Region
+                region: 'eu-central-1',
+        
+                // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
+                // Required only if it's different from Amazon Cognito Region
+                //identityPoolRegion: 'XX-XXXX-X',
+        
+                // OPTIONAL - Amazon Cognito User Pool ID
+                userPoolId: 'eu-central-1_QXiNhM5ZH',
+        
+                // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+                userPoolWebClientId: '1hoon7s3c7egce88jhrcpitomk',
+                
+                
+                oauth: {
+                    domain: 'simulair-user-pool.auth.eu-central-1.amazoncognito.com',
+                    scope: ['profile', 'openid', 'email'],
+                    redirectSignIn: 'http://localhost:3000/',
+                    redirectSignOut: 'http://localhost:3000/',
+                    responseType: 'token' // or 'token', note that REFRESH token will only be generated when the responseType is code
+                }
+                
+            },
+            Storage : {
+                bucket : 'userpic-test',
+                region : 'eu-central-1',
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81'
+            }
+        });
+    }
+
+    SetS3Config = (bucket,level) => {
+            Storage.configure({ 
+                bucket: bucket,
+                level: level,
+                region: 'eu-central-1',
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81'
+            });
+    }
+
 }
 
 export default new AuthService();

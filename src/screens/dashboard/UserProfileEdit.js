@@ -85,22 +85,34 @@ class UserProfileEdit extends Component {
 
     handleFileSelect = (e) => {
         const file = e.target.files[0];
-
-        if(file){
-            this.getBase64(file)
-            .then(encoded => {
-                this.setState({updateInProgress: true});
-                return AuthService.postUpdateImage(encoded).then(response => {
-                    console.log(response);
-                    this.props.updateUserImage(response.data.profile_image);
-                    toast.success(`Profile image updated.`);
-                });
-            }).catch(error => {
-                console.log(error);
-             }).finally(() => {
-                 this.setState({updateInProgress: false});
-             });
-        }
+        this.setState({updateInProgress : true});
+        return AuthService.uploadImage(file)
+                          .then((response) => {
+                              console.log(response);
+                              this.props.updateUserImage(response);
+                              toast.success(`Profile image updated.`);
+                          }).catch(error => {
+                                    console.log(error);
+                                  })
+                            .finally(() => {
+                                      this.setState({updateInProgress: false});
+                                     
+                                  });
+        // if(file){
+        //     this.getBase64(file)
+        //     .then(encoded => {
+        //         this.setState({updateInProgress: true});
+        //         return AuthService.postUpdateImage(encoded).then(response => {
+        //             console.log(response);
+        //             this.props.updateUserImage(response.data.profile_image);
+        //             toast.success(`Profile image updated.`);
+        //         });
+        //     }).catch(error => {
+        //         console.log(error);
+        //      }).finally(() => {
+        //          this.setState({updateInProgress: false});
+        //      });
+        // }
     }
 
     renderContent = () => {
