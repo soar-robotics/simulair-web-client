@@ -7,10 +7,8 @@ import {
     CognitoUserSession,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
-
 import { reject, result } from "lodash";
 import Amplify, {Auth,Storage} from 'aws-amplify';
-
 
 
 class AuthService {
@@ -169,21 +167,18 @@ class AuthService {
             }
         });
     }
-
-
     getIdentityId = () => {
 
            return Auth.currentUserInfo();
 
     }
-
     onGoogleSignup(){
 
       return Auth.federatedSignIn({provider:'Google'});
     
        
     }
-    
+ 
     uploadImage = async (file) => {
         let identityId;
         await this.SetS3Config("userpic-test","protected");

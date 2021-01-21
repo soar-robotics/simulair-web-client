@@ -24,6 +24,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        
         const params = queryString.parse(this.props.location.search);
         if (params.verify) {
             toast.info(`Email verified successfully, you may now login.`);
@@ -31,6 +32,12 @@ class Login extends Component {
         if (params.email) {
             this.setState({email: params.email});
         }
+    }
+
+    handleGoogleSignIn = () => {
+         AuthService.onGoogleSignup()
+                     .catch(err => {alert(err)});
+
     }
 
     handleFormSubmit = (values) => {
@@ -51,6 +58,8 @@ class Login extends Component {
     }
 
     render() {
+
+       
         return (
             <div className={styles.vCenter}>
                 <Container className={styles.wrapper}>
@@ -73,9 +82,7 @@ class Login extends Component {
                             <p>or login with</p>
                             <div className={styles.list}>
                                 <div className={styles.item}>
-                                    <a href={`${SIMULAIR_API.BASE_URL}/${SIMULAIR_API.GOOGLE_AUTH_PATH}`}>
-                                        <img src={googleImg}/>
-                                    </a>
+                                    <img onClick={this.handleGoogleSignIn} src={googleImg}/>
                                 </div>
                             </div>
                         </div>

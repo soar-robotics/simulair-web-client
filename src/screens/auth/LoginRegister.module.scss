@@ -83,7 +83,7 @@
 
             img {
               width: 210px;
-
+              cursor:pointer;
               @include media-breakpoint-down(xxl) {
                 width: 190px;
               }
@@ -167,6 +167,7 @@
 
         img {
           width: 130px;
+          cursor:pointer;
         }
       }
     }
