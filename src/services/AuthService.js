@@ -1,5 +1,5 @@
 import axios from "axios";
-import simulair from './apis/simulair';
+import simulair,{bucket_id} from './apis/simulair';
 import {
 	CognitoUserPool,
 	CognitoUserAttribute,
@@ -7,8 +7,8 @@ import {
     CognitoUserSession,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
-import { reject } from "lodash";
-import Amplify, { Auth } from 'aws-amplify';
+import { reject, result } from "lodash";
+import Amplify, {Auth,Storage} from 'aws-amplify';
 
 
 class AuthService {
@@ -106,6 +106,7 @@ class AuthService {
             return simulair
             .get("/me", {headers : response})
             .then(response => {
+                console.log(response.data);
                 return response.data;
             });
         })
@@ -166,12 +167,39 @@ class AuthService {
             }
         });
     }
+    getIdentityId = () => {
 
+           return Auth.currentUserInfo();
+
+    }
     onGoogleSignup(){
 
       return Auth.federatedSignIn({provider:'Google'});
     
        
+    }
+ 
+    uploadImage = async (file) => {
+        let identityId;
+        await this.SetS3Config("userpic-test","protected");
+        
+        await this.getIdentityId().then(result => {
+            identityId = result.id;
+        })
+        
+        return Storage.put(`${file.name}`,
+                file,
+                {contentType: file.type,
+                 acl: "public-read"
+                })
+                .then(async () => {
+                const user = await Auth.currentAuthenticatedUser();
+                let url = `https://${bucket_id}.s3.eu-central-1.amazonaws.com/protected/${identityId}/${file.name}`;
+                await Auth.updateUserAttributes(user,{
+                    'picture' : url
+                });
+                return url;
+                }).catch(err => {console.log(err)});
     }
 
     authConfigure = () => {
@@ -179,7 +207,8 @@ class AuthService {
             Auth: {
         
                 // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-                //identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81',
         
                 // REQUIRED - Amazon Cognito Region
                 region: 'eu-central-1',
@@ -203,9 +232,24 @@ class AuthService {
                     responseType: 'token' // or 'token', note that REFRESH token will only be generated when the responseType is code
                 }
                 
+            },
+            Storage : {
+                bucket : 'userpic-test',
+                region : 'eu-central-1',
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81'
             }
         });
     }
+
+    SetS3Config = (bucket,level) => {
+            Storage.configure({ 
+                bucket: bucket,
+                level: level,
+                region: 'eu-central-1',
+                identityPoolId: 'eu-central-1:238129e4-2f4c-4b0b-bd3a-ff02d8050a81'
+            });
+    }
+
 }
 
 export default new AuthService();
