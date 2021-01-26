@@ -112,16 +112,25 @@ class AuthService {
         })
     }
 
-    patchUpdateMe(values) {
-        return this.getAuthHeader().then(response => {
-            console.log(response);
-            return simulair
-            .patch(`/me`, values, {headers: response})
-            .then(response => {
-                console.log(response, response.data);
-                return response.data;
-            });
-        })
+    async patchUpdateMe(values) {
+        const user = await Auth.currentAuthenticatedUser();
+
+        return Auth.updateUserAttributes(user,{
+            'custom:company' : values.company,
+            'name' : values.first_name,
+            'family_name' : values.last_name,
+            'custom:username' : values.username
+        });
+        // return this.getAuthHeader().then(response => {
+        //     console.log(response);
+        //     return simulair
+        //     .patch('/me', values, {headers: response})
+        //     .then(response => {
+        //         console.log(response, response.data);
+        //         return response.data;
+        //     })
+        //     .catch(err => console.log(err))
+        // })
 
     }
 
@@ -199,7 +208,8 @@ class AuthService {
                     'picture' : url
                 });
                 return url;
-                }).catch(err => {console.log(err)});
+                })
+                .catch(err => {console.log(err)});
     }
 
     authConfigure = () => {
@@ -226,9 +236,8 @@ class AuthService {
                 
                 oauth: {
                     domain: 'simulair-user-pool.auth.eu-central-1.amazoncognito.com',
-                    scope: ['profile', 'openid', 'email'],
-                    redirectSignIn: 'http://localhost:3000/',
-                    redirectSignOut: 'http://localhost:3000/',
+                    redirectSignIn: 'http://localhost:3000/app/',
+                    redirectSignOut: 'http://localhost:3000/login/',
                     responseType: 'token' // or 'token', note that REFRESH token will only be generated when the responseType is code
                 }
                 
