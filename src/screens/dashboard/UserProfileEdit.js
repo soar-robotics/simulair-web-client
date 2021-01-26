@@ -47,7 +47,7 @@ class UserProfileEdit extends Component {
         });
 
         AuthService.patchUpdateMe(values).then((response) => {
-            this.props.updateUser(response.data);
+            AuthService.getMe().then(result => this.props.updateUser(result.data));
             toast.success(`Profile info updated.`);
             this.closeModal();
         }).catch(error => {
@@ -96,7 +96,7 @@ class UserProfileEdit extends Component {
                                   })
                             .finally(() => {
                                       this.setState({updateInProgress: false});
-                                     
+                                      this.closeModal();
                                   });
         // if(file){
         //     this.getBase64(file)
